@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { ServiceIcon } from "@/components/dashboard/ServiceIcon";
+import { ShareModal } from "@/components/share/ShareModal";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const Route = createFileRoute("/result")({
@@ -42,6 +43,7 @@ function ResultPage() {
 	const [expandedServices, setExpandedServices] = useState<Set<string>>(
 		new Set(),
 	);
+	const [shareModalOpen, setShareModalOpen] = useState(false);
 
 	// Redirect if not finalized (unless we're intentionally editing)
 	useEffect(() => {
@@ -402,22 +404,7 @@ function ResultPage() {
 						Restart
 					</Button>
 					<Button
-						onClick={() => {
-							const traitEmojis = policyTraits
-								.slice(0, 3)
-								.map((t) => t.emoji)
-								.join("");
-							const hybridText = archetype?.isCompound ? " (Hybrid)" : "";
-							const traitsText = traitEmojis ? ` ${traitEmojis}` : "";
-							const text = encodeURIComponent(
-								`My government is ${archetype?.name}${hybridText}!${traitsText}\n\nI allocated a national budget on Govern. Try it yourself!`,
-							);
-							const url = encodeURIComponent(window.location.origin);
-							window.open(
-								`https://x.com/intent/tweet?text=${text}&url=${url}`,
-								"_blank",
-							);
-						}}
+						onClick={() => setShareModalOpen(true)}
 						className="bg-teal-700 hover:bg-teal-800 rounded-lg py-5 font-medium"
 					>
 						<Share2 className="w-4 h-4 mr-2" />
@@ -425,6 +412,16 @@ function ResultPage() {
 					</Button>
 				</div>
 			</div>
+
+			{/* Share Modal */}
+			<ShareModal
+				open={shareModalOpen}
+				onOpenChange={setShareModalOpen}
+				archetype={archetype}
+				policyTraits={policyTraits}
+				governanceStyle={governanceStyle}
+				state={state}
+			/>
 		</div>
 	);
 }
