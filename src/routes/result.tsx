@@ -103,8 +103,8 @@ function ResultPage() {
           {/* Maxed Services */}
           <Card className="bg-white border border-gray-200 rounded-xl p-5">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center">
-                <Trophy className="w-4 h-4 text-amber-600" />
+              <div className="w-8 h-8 rounded-lg bg-teal-100 flex items-center justify-center">
+                <Trophy className="w-4 h-4 text-teal-600" />
               </div>
               <div>
                 <p className="font-medium text-gray-900 text-sm">Utopia Achieved</p>
@@ -116,7 +116,7 @@ function ResultPage() {
                 {maxedServices.map((s) => (
                   <div
                     key={s.id}
-                    className="flex items-center gap-2 text-sm text-amber-700"
+                    className="flex items-center gap-2 text-sm text-teal-700"
                   >
                     <ServiceIcon iconName={s.icon} className="w-4 h-4" />
                     <span className="truncate">{s.name}</span>
@@ -175,8 +175,8 @@ function ResultPage() {
                     collapsed
                       ? "text-red-500"
                       : tier === 4
-                      ? "text-amber-500"
-                      : "text-gray-400"
+                      ? "text-teal-600"
+                      : "text-emerald-500"
                   }`}
                 />
                 <div className="flex-1 min-w-0">
@@ -195,8 +195,8 @@ function ResultPage() {
                           collapsed
                             ? "bg-red-500"
                             : tier === 4
-                            ? "bg-amber-500"
-                            : "bg-teal-600"
+                            ? "bg-teal-600"
+                            : "bg-emerald-400"
                         }`}
                         style={{ width: `${Math.min(100, (allocation / (spendable * service.maxCost)) * 100)}%` }}
                       />

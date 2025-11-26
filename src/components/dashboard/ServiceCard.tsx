@@ -86,7 +86,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
           collapsed
             ? "border-red-200 bg-red-50/50"
             : currentTier === 4
-            ? "border-amber-200 bg-amber-50/30"
+            ? "border-teal-200 bg-teal-50/30"
             : "border-gray-200"
         }`}
       >
@@ -98,8 +98,8 @@ export function ServiceCard({ service }: ServiceCardProps) {
                 collapsed
                   ? "bg-red-100"
                   : currentTier === 4
-                  ? "bg-amber-100"
-                  : "bg-teal-50"
+                  ? "bg-teal-100"
+                  : "bg-emerald-50"
               }`}
             >
               <ServiceIcon
@@ -108,8 +108,8 @@ export function ServiceCard({ service }: ServiceCardProps) {
                   collapsed
                     ? "text-red-600"
                     : currentTier === 4
-                    ? "text-amber-600"
-                    : "text-teal-700"
+                    ? "text-teal-700"
+                    : "text-emerald-500"
                 }`}
               />
             </div>
@@ -126,7 +126,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
                 {state.currencySymbol}{Math.round(allocation).toLocaleString()}
               </p>
               <p className={`text-xs font-medium ${
-                collapsed ? "text-red-600" : currentTier === 4 ? "text-amber-600" : "text-gray-400"
+                collapsed ? "text-red-600" : currentTier === 4 ? "text-teal-600" : "text-emerald-500"
               }`}>
                 {collapsed ? "COLLAPSED" : statusText}
               </p>
@@ -141,8 +141,8 @@ export function ServiceCard({ service }: ServiceCardProps) {
                   collapsed
                     ? "bg-red-500"
                     : currentTier === 4
-                    ? "bg-amber-500"
-                    : "bg-teal-600"
+                    ? "bg-teal-600"
+                    : "bg-emerald-400"
                 }`}
                 style={{ width: `${percentage * 100}%` }}
               />

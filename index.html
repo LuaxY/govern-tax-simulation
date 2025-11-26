@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -7,8 +7,16 @@
     <meta name="theme-color" content="#fafafa" />
     <meta name="description" content="The People's Ledger - Allocate your tax money like a Civilization skill tree" />
     <title>The People's Ledger</title>
+    <script type="module">
+      if (import.meta.env.DEV) {
+        import("react-grab");
+      }
+    </script>
     <style>
-      html, body { background-color: #fafafa; }
+      html,
+      body {
+        background-color: #fafafa;
+      }
     </style>
   </head>
   <body>
