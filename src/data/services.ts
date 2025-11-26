@@ -590,8 +590,11 @@ export const SERVICES_DATA: Service[] = [
 	},
 ];
 
-// Political archetypes based on highest spending
-export const ARCHETYPES = {
+// Political archetypes based on highest spending (single service)
+export const ARCHETYPES: Record<
+	string,
+	{ name: string; description: string; emoji: string }
+> = {
 	debt: {
 		name: "The Fiscal Hawk",
 		description:
@@ -635,3 +638,434 @@ export const ARCHETYPES = {
 		emoji: "🏛️",
 	},
 };
+
+// Compound archetypes when two services are close in spending (within threshold)
+// Key format: "serviceId1-serviceId2" (alphabetically sorted)
+export const COMPOUND_ARCHETYPES: Record<
+	string,
+	{ name: string; description: string; emoji: string }
+> = {
+	// Health combinations
+	"education-health": {
+		name: "The Social Progressive",
+		description:
+			"A government that invests in people through health and knowledge.",
+		emoji: "🌟",
+	},
+	"health-social": {
+		name: "The Welfare Champion",
+		description:
+			"A compassionate state focused on citizen wellbeing and social safety.",
+		emoji: "💝",
+	},
+	"environment-health": {
+		name: "The Holistic Healer",
+		description: "You believe healthy people need a healthy planet.",
+		emoji: "🌿",
+	},
+	"defense-health": {
+		name: "The Protector",
+		description: "Security and health form the foundation of your nation.",
+		emoji: "🏥",
+	},
+
+	// Education combinations
+	"education-environment": {
+		name: "The Future Planner",
+		description: "Investing in minds and the planet for generations to come.",
+		emoji: "🔮",
+	},
+	"education-infrastructure": {
+		name: "The Modernizer",
+		description: "Building smart infrastructure and educated citizens.",
+		emoji: "🚀",
+	},
+	"defense-education": {
+		name: "The Strategic Thinker",
+		description: "Knowledge and security are your pillars of strength.",
+		emoji: "🎯",
+	},
+	"education-social": {
+		name: "The Equalizer",
+		description: "Education and social support break the cycle of inequality.",
+		emoji: "📚",
+	},
+
+	// Infrastructure combinations
+	"defense-infrastructure": {
+		name: "The Strategic Builder",
+		description:
+			"Strong infrastructure and strong defense make a strong nation.",
+		emoji: "🏰",
+	},
+	"environment-infrastructure": {
+		name: "The Green Engineer",
+		description: "Building sustainable infrastructure for a cleaner future.",
+		emoji: "🌉",
+	},
+	"infrastructure-social": {
+		name: "The Public Servant",
+		description: "Infrastructure and social services that lift all citizens.",
+		emoji: "🏘️",
+	},
+
+	// Defense combinations
+	"defense-environment": {
+		name: "The Resource Guardian",
+		description: "Protecting the nation and its natural resources.",
+		emoji: "🦁",
+	},
+	"defense-social": {
+		name: "The Sentinel State",
+		description: "A secure nation with a strong social safety net.",
+		emoji: "⚔️",
+	},
+	"defense-governance": {
+		name: "The Order Keeper",
+		description: "Strong institutions and security maintain stability.",
+		emoji: "🏛️",
+	},
+
+	// Environment combinations
+	"environment-social": {
+		name: "The Green Socialist",
+		description: "Environmental justice and social equality go hand in hand.",
+		emoji: "🌻",
+	},
+
+	// Social combinations
+	"governance-social": {
+		name: "The Administrator",
+		description: "Efficient governance delivering social programs to all.",
+		emoji: "📋",
+	},
+
+	// Governance combinations
+	"governance-health": {
+		name: "The Public Health Official",
+		description: "Well-organized systems delivering healthcare to all.",
+		emoji: "⚕️",
+	},
+	"education-governance": {
+		name: "The Enlightened Bureaucrat",
+		description: "Smart governance powered by educated citizens.",
+		emoji: "🎓",
+	},
+	"governance-infrastructure": {
+		name: "The Systems Architect",
+		description: "Building efficient systems both physical and administrative.",
+		emoji: "🔧",
+	},
+	"environment-governance": {
+		name: "The Regulator",
+		description: "Strong environmental policy backed by capable institutions.",
+		emoji: "📜",
+	},
+
+	// Debt combinations
+	"debt-governance": {
+		name: "The Fiscal Conservative",
+		description:
+			"Prudent spending and efficient government reduce national debt.",
+		emoji: "💼",
+	},
+	"debt-infrastructure": {
+		name: "The Pragmatic Investor",
+		description:
+			"Strategic infrastructure spending while managing debt responsibly.",
+		emoji: "📊",
+	},
+	"debt-health": {
+		name: "The Balanced Steward",
+		description: "Maintaining fiscal health while caring for citizen health.",
+		emoji: "⚖️",
+	},
+	"debt-education": {
+		name: "The Long-Term Planner",
+		description: "Investing in education while ensuring fiscal sustainability.",
+		emoji: "🎯",
+	},
+	"debt-defense": {
+		name: "The Fortress Builder",
+		description: "Financial security and national security are equally vital.",
+		emoji: "🏦",
+	},
+	"debt-environment": {
+		name: "The Sustainable Economist",
+		description: "Green investments that also make fiscal sense.",
+		emoji: "💚",
+	},
+	"debt-social": {
+		name: "The Responsible Caretaker",
+		description: "Social programs funded sustainably for the long term.",
+		emoji: "🤲",
+	},
+};
+
+// Subservice trait definitions - triggers when allocation % exceeds threshold
+export interface PolicyTrait {
+	id: string;
+	name: string;
+	emoji: string;
+	serviceId: string;
+	subServiceId: string;
+	threshold: number; // Percentage of parent (0-1) to trigger this trait
+}
+
+export const POLICY_TRAITS: PolicyTrait[] = [
+	// Health subservices
+	{
+		id: "mental-health-champion",
+		name: "Mental Health Champion",
+		emoji: "🧠",
+		serviceId: "health",
+		subServiceId: "mental-health",
+		threshold: 0.3,
+	},
+	{
+		id: "pandemic-prepared",
+		name: "Pandemic Prepared",
+		emoji: "🦠",
+		serviceId: "health",
+		subServiceId: "pandemic",
+		threshold: 0.25,
+	},
+	{
+		id: "pharma-focus",
+		name: "Pharma Focused",
+		emoji: "💊",
+		serviceId: "health",
+		subServiceId: "pharmaceuticals",
+		threshold: 0.35,
+	},
+	{
+		id: "hospital-builder",
+		name: "Hospital Builder",
+		emoji: "🏥",
+		serviceId: "health",
+		subServiceId: "hospitals",
+		threshold: 0.55,
+	},
+
+	// Education subservices
+	{
+		id: "space-enthusiast",
+		name: "Space Enthusiast",
+		emoji: "🚀",
+		serviceId: "education",
+		subServiceId: "space",
+		threshold: 0.15,
+	},
+	{
+		id: "arts-patron",
+		name: "Arts Patron",
+		emoji: "🎨",
+		serviceId: "education",
+		subServiceId: "arts",
+		threshold: 0.1,
+	},
+	{
+		id: "research-driven",
+		name: "Research Driven",
+		emoji: "🔬",
+		serviceId: "education",
+		subServiceId: "research",
+		threshold: 0.3,
+	},
+	{
+		id: "university-champion",
+		name: "University Champion",
+		emoji: "🎓",
+		serviceId: "education",
+		subServiceId: "universities",
+		threshold: 0.4,
+	},
+
+	// Infrastructure subservices
+	{
+		id: "rail-enthusiast",
+		name: "Rail Enthusiast",
+		emoji: "🚄",
+		serviceId: "infrastructure",
+		subServiceId: "rail",
+		threshold: 0.35,
+	},
+	{
+		id: "digital-first",
+		name: "Digital First",
+		emoji: "🌐",
+		serviceId: "infrastructure",
+		subServiceId: "internet",
+		threshold: 0.25,
+	},
+	{
+		id: "road-warrior",
+		name: "Road Warrior",
+		emoji: "🛣️",
+		serviceId: "infrastructure",
+		subServiceId: "roads",
+		threshold: 0.45,
+	},
+	{
+		id: "water-guardian",
+		name: "Water Guardian",
+		emoji: "💧",
+		serviceId: "infrastructure",
+		subServiceId: "water",
+		threshold: 0.3,
+	},
+
+	// Defense subservices
+	{
+		id: "cyber-defender",
+		name: "Cyber Defender",
+		emoji: "🔐",
+		serviceId: "defense",
+		subServiceId: "cyber",
+		threshold: 0.25,
+	},
+	{
+		id: "military-strong",
+		name: "Military Strong",
+		emoji: "🎖️",
+		serviceId: "defense",
+		subServiceId: "military",
+		threshold: 0.5,
+	},
+	{
+		id: "firefighter-hero",
+		name: "First Responder Focus",
+		emoji: "🚒",
+		serviceId: "defense",
+		subServiceId: "fire",
+		threshold: 0.25,
+	},
+	{
+		id: "border-hawk",
+		name: "Border Hawk",
+		emoji: "🚧",
+		serviceId: "defense",
+		subServiceId: "borders",
+		threshold: 0.2,
+	},
+
+	// Environment subservices
+	{
+		id: "climate-forward",
+		name: "Climate Forward",
+		emoji: "⚡",
+		serviceId: "environment",
+		subServiceId: "energy",
+		threshold: 0.5,
+	},
+	{
+		id: "park-ranger",
+		name: "Park Ranger",
+		emoji: "🏕️",
+		serviceId: "environment",
+		subServiceId: "parks",
+		threshold: 0.3,
+	},
+	{
+		id: "pollution-fighter",
+		name: "Pollution Fighter",
+		emoji: "🌬️",
+		serviceId: "environment",
+		subServiceId: "pollution",
+		threshold: 0.35,
+	},
+	{
+		id: "farm-supporter",
+		name: "Farm Supporter",
+		emoji: "🌾",
+		serviceId: "environment",
+		subServiceId: "agriculture",
+		threshold: 0.3,
+	},
+
+	// Social subservices
+	{
+		id: "housing-advocate",
+		name: "Housing Advocate",
+		emoji: "🏠",
+		serviceId: "social",
+		subServiceId: "housing",
+		threshold: 0.3,
+	},
+	{
+		id: "childcare-champion",
+		name: "Childcare Champion",
+		emoji: "👶",
+		serviceId: "social",
+		subServiceId: "childcare",
+		threshold: 0.25,
+	},
+	{
+		id: "pension-protector",
+		name: "Pension Protector",
+		emoji: "👴",
+		serviceId: "social",
+		subServiceId: "pensions",
+		threshold: 0.55,
+	},
+	{
+		id: "job-security",
+		name: "Job Security Advocate",
+		emoji: "💼",
+		serviceId: "social",
+		subServiceId: "unemployment",
+		threshold: 0.3,
+	},
+
+	// Governance subservices
+	{
+		id: "global-aid-leader",
+		name: "Global Aid Leader",
+		emoji: "🌍",
+		serviceId: "governance",
+		subServiceId: "foreign-aid",
+		threshold: 0.3,
+	},
+	{
+		id: "justice-seeker",
+		name: "Justice Seeker",
+		emoji: "⚖️",
+		serviceId: "governance",
+		subServiceId: "justice",
+		threshold: 0.35,
+	},
+	{
+		id: "tax-reformer",
+		name: "Tax Reformer",
+		emoji: "📝",
+		serviceId: "governance",
+		subServiceId: "tax",
+		threshold: 0.35,
+	},
+	{
+		id: "efficient-admin",
+		name: "Efficient Administrator",
+		emoji: "🗂️",
+		serviceId: "governance",
+		subServiceId: "admin",
+		threshold: 0.4,
+	},
+
+	// Debt subservices
+	{
+		id: "bond-manager",
+		name: "Bond Manager",
+		emoji: "📈",
+		serviceId: "debt",
+		subServiceId: "bonds",
+		threshold: 0.4,
+	},
+	{
+		id: "debt-hawk",
+		name: "Debt Hawk",
+		emoji: "🦅",
+		serviceId: "debt",
+		subServiceId: "management",
+		threshold: 0.3,
+	},
+];
