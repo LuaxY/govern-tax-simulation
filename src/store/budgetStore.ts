@@ -8,10 +8,34 @@ SERVICES_DATA.forEach((service) => {
   initialAllocations[service.id] = service.minCost;
 });
 
+// Initialize sub-allocations based on service allocations and default percentages
+function initializeSubAllocations(
+  allocations: Record<string, number>
+): Record<string, Record<string, number>> {
+  const subAllocations: Record<string, Record<string, number>> = {};
+
+  SERVICES_DATA.forEach((service) => {
+    if (service.subServices && service.subServices.length > 0) {
+      const serviceAllocation = allocations[service.id] || 0;
+      subAllocations[service.id] = {};
+
+      service.subServices.forEach((subService) => {
+        subAllocations[service.id][subService.id] =
+          serviceAllocation * subService.defaultPercentage;
+      });
+    }
+  });
+
+  return subAllocations;
+}
+
+const initialSubAllocations = initializeSubAllocations(initialAllocations);
+
 export const budgetStore = new Store<BudgetState>({
   totalTaxInput: APP_CONFIG.fixedBudget,
   currencySymbol: APP_CONFIG.currencySymbol,
   allocations: initialAllocations,
+  subAllocations: initialSubAllocations,
   isFinalized: false,
 });
 
@@ -110,14 +134,160 @@ export function updateAllocation(serviceId: string, amount: number): void {
     // Clamp the amount between minCost and maxAllowable
     const clampedAmount = Math.max(minAllowed, Math.min(amount, maxAllowable));
 
+    // Proportionally adjust sub-allocations when parent allocation changes
+    let newSubAllocations = { ...state.subAllocations };
+    if (service.subServices && service.subServices.length > 0) {
+      const currentSubAllocs = state.subAllocations[serviceId] || {};
+      const currentTotal = Object.values(currentSubAllocs).reduce((sum, v) => sum + v, 0);
+      
+      if (currentTotal > 0) {
+        // Scale proportionally
+        const scale = clampedAmount / currentTotal;
+        newSubAllocations[serviceId] = {};
+        for (const [subId, subAmount] of Object.entries(currentSubAllocs)) {
+          newSubAllocations[serviceId][subId] = subAmount * scale;
+        }
+      } else {
+        // Initialize with defaults if no current sub-allocations
+        newSubAllocations[serviceId] = {};
+        service.subServices.forEach((sub) => {
+          newSubAllocations[serviceId][sub.id] = clampedAmount * sub.defaultPercentage;
+        });
+      }
+    }
+
     return {
       ...state,
       allocations: {
         ...state.allocations,
         [serviceId]: clampedAmount,
       },
+      subAllocations: newSubAllocations,
     };
   });
+}
+
+// Update a sub-allocation within a service
+export function updateSubAllocation(
+  serviceId: string,
+  subServiceId: string,
+  amount: number
+): void {
+  budgetStore.setState((state) => {
+    const service = SERVICES_DATA.find((s) => s.id === serviceId);
+    if (!service || !service.subServices) return state;
+
+    const parentAllocation = state.allocations[serviceId] || 0;
+    const currentSubAllocs = state.subAllocations[serviceId] || {};
+    
+    // Find the target sub-service to get its minimum
+    const targetSubService = service.subServices.find((s) => s.id === subServiceId);
+    if (!targetSubService) return state;
+
+    // Calculate minimum amount for this sub-service
+    const minAmount = parentAllocation * targetSubService.minPercentage;
+    
+    // Calculate the sum of minimum amounts for OTHER sub-services
+    const otherMinTotal = service.subServices
+      .filter((s) => s.id !== subServiceId)
+      .reduce((sum, s) => sum + parentAllocation * s.minPercentage, 0);
+    
+    // Maximum this sub-service can have is parent - sum of other minimums
+    const maxAmount = parentAllocation - otherMinTotal;
+    
+    // Clamp the requested amount between min and max
+    const clampedAmount = Math.max(minAmount, Math.min(amount, maxAmount));
+
+    // Remaining budget for other sub-services
+    const remainingForOthers = parentAllocation - clampedAmount;
+    
+    // Calculate current total for other sub-services (excluding target)
+    const otherCurrentTotal = Object.entries(currentSubAllocs)
+      .filter(([id]) => id !== subServiceId)
+      .reduce((sum, [, val]) => sum + val, 0);
+
+    // Distribute remaining to other sub-services proportionally, respecting minimums
+    const newSubAllocs: Record<string, number> = {};
+    newSubAllocs[subServiceId] = clampedAmount;
+    
+    if (otherCurrentTotal > 0) {
+      // First pass: calculate proportional amounts
+      const proportionalAmounts: Record<string, number> = {};
+      let totalProportional = 0;
+      
+      for (const sub of service.subServices) {
+        if (sub.id === subServiceId) continue;
+        const currentVal = currentSubAllocs[sub.id] || 0;
+        const proportion = currentVal / otherCurrentTotal;
+        const proposed = remainingForOthers * proportion;
+        proportionalAmounts[sub.id] = proposed;
+        totalProportional += proposed;
+      }
+      
+      // Second pass: enforce minimums and redistribute excess
+      let deficit = 0;
+      let surplus = 0;
+      const aboveMinimum: string[] = [];
+      
+      for (const sub of service.subServices) {
+        if (sub.id === subServiceId) continue;
+        const minVal = parentAllocation * sub.minPercentage;
+        const proposed = proportionalAmounts[sub.id];
+        
+        if (proposed < minVal) {
+          deficit += minVal - proposed;
+          newSubAllocs[sub.id] = minVal;
+        } else {
+          aboveMinimum.push(sub.id);
+          surplus += proposed - minVal;
+          newSubAllocs[sub.id] = proposed;
+        }
+      }
+      
+      // If there's a deficit, take from those above minimum proportionally
+      if (deficit > 0 && surplus > 0) {
+        for (const subId of aboveMinimum) {
+          const sub = service.subServices.find((s) => s.id === subId)!;
+          const minVal = parentAllocation * sub.minPercentage;
+          const excess = newSubAllocs[subId] - minVal;
+          const reduction = (excess / surplus) * deficit;
+          newSubAllocs[subId] = Math.max(minVal, newSubAllocs[subId] - reduction);
+        }
+      }
+    } else {
+      // If others are zero, distribute remaining proportionally to their defaults (above min)
+      const otherSubs = service.subServices.filter((s) => s.id !== subServiceId);
+      const totalDefaultPercentage = otherSubs.reduce((sum, s) => sum + s.defaultPercentage, 0);
+      
+      for (const sub of otherSubs) {
+        const proportion = sub.defaultPercentage / totalDefaultPercentage;
+        const proposed = remainingForOthers * proportion;
+        const minVal = parentAllocation * sub.minPercentage;
+        newSubAllocs[sub.id] = Math.max(minVal, proposed);
+      }
+    }
+
+    return {
+      ...state,
+      subAllocations: {
+        ...state.subAllocations,
+        [serviceId]: newSubAllocs,
+      },
+    };
+  });
+}
+
+// Get sub-allocation percentage within parent (0-1)
+export function getSubAllocationPercentage(
+  state: BudgetState,
+  serviceId: string,
+  subServiceId: string
+): number {
+  const parentAllocation = state.allocations[serviceId] || 0;
+  if (parentAllocation <= 0) return 0;
+
+  const subAmount = state.subAllocations[serviceId]?.[subServiceId] || 0;
+  return subAmount / parentAllocation;
 }
 
 export function finalizeBudget(): void {
@@ -132,7 +302,19 @@ export function resetBudget(): void {
     totalTaxInput: APP_CONFIG.fixedBudget,
     currencySymbol: APP_CONFIG.currencySymbol,
     allocations: { ...initialAllocations },
+    subAllocations: initializeSubAllocations(initialAllocations),
     isFinalized: false,
+  }));
+}
+
+// Set allocations with corresponding sub-allocations (used by distribute/randomize)
+export function setAllocationsWithSubAllocations(
+  newAllocations: Record<string, number>
+): void {
+  budgetStore.setState((state) => ({
+    ...state,
+    allocations: newAllocations,
+    subAllocations: initializeSubAllocations(newAllocations),
   }));
 }
 

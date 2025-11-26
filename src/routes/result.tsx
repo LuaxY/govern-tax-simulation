@@ -9,6 +9,7 @@ import {
   getServiceTierLevel,
   getPoliticalArchetype,
   isServiceAtMinimum,
+  getSubAllocationPercentage,
 } from "@/store/budgetStore";
 import { formatCurrency } from "@/lib/utils";
 import {
@@ -18,9 +19,11 @@ import {
   Share2,
   CheckCircle,
   ArrowLeft,
+  ChevronDown,
 } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ServiceIcon } from "@/components/dashboard/ServiceIcon";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const Route = createFileRoute("/result")({
   component: ResultPage,
@@ -31,6 +34,7 @@ function ResultPage() {
   const state = useStore(budgetStore);
   const archetype = getPoliticalArchetype(state);
   const isEditingRef = useRef(false);
+  const [expandedServices, setExpandedServices] = useState<Set<string>>(new Set());
 
   // Redirect if not finalized (unless we're intentionally editing)
   useEffect(() => {
@@ -44,6 +48,18 @@ function ResultPage() {
     navigate({ to: "/" });
   };
 
+  const toggleExpanded = (serviceId: string) => {
+    setExpandedServices((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(serviceId)) {
+        newSet.delete(serviceId);
+      } else {
+        newSet.add(serviceId);
+      }
+      return newSet;
+    });
+  };
+
   // Get maxed services (Tier 4) and minimum services
   const maxedServices = SERVICES_DATA.filter(
     (s) => getServiceTierLevel(state, s) === 4
@@ -52,13 +68,13 @@ function ResultPage() {
     isServiceAtMinimum(state, s)
   );
 
-  // Get all service stats for display
+  // Get all service stats for display (keep original order like dashboard)
   const serviceStats = SERVICES_DATA.map((service) => ({
     service,
     tier: getServiceTierLevel(state, service),
     allocation: state.allocations[service.id] || service.minCost,
     atMinimum: isServiceAtMinimum(state, service),
-  })).sort((a, b) => b.allocation - a.allocation);
+  }));
 
   return (
     <div className="min-h-screen py-10 px-4">
@@ -162,50 +178,129 @@ function ResultPage() {
         <Card className="bg-white border border-gray-200 rounded-xl p-5 mb-6">
           <h3 className="font-medium text-gray-900 mb-4">Budget Breakdown</h3>
           <div className="space-y-3">
-            {serviceStats.map(({ service, tier, allocation, atMinimum }) => (
-              <div
-                key={service.id}
-                className="flex items-center gap-3"
-              >
-                <ServiceIcon
-                  iconName={service.icon}
-                  className={`w-5 h-5 shrink-0 ${
-                    atMinimum
-                      ? "text-amber-500"
-                      : tier === 4
-                      ? "text-teal-600"
-                      : "text-emerald-500"
-                  }`}
-                />
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-2 mb-1">
-                    <span className="text-sm font-medium text-gray-700 truncate">
-                      {service.name}
-                    </span>
-                    <span className="text-xs text-gray-400 shrink-0">
-                      Tier {tier}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full rounded-full ${
-                          atMinimum
-                            ? "bg-amber-400"
-                            : tier === 4
-                            ? "bg-teal-600"
-                            : "bg-emerald-400"
-                        }`}
-                        style={{ width: `${Math.min(100, (allocation / service.maxCost) * 100)}%` }}
-                      />
+            {serviceStats.map(({ service, tier, allocation, atMinimum }) => {
+              const hasSubServices = service.subServices && service.subServices.length > 0;
+              const isExpanded = expandedServices.has(service.id);
+
+              return (
+                <div key={service.id}>
+                  <div
+                    className={`flex items-center gap-3 ${hasSubServices ? "cursor-pointer" : ""}`}
+                    onClick={() => hasSubServices && toggleExpanded(service.id)}
+                  >
+                    <ServiceIcon
+                      iconName={service.icon}
+                      className={`w-5 h-5 shrink-0 ${
+                        atMinimum
+                          ? "text-amber-500"
+                          : tier === 4
+                          ? "text-teal-600"
+                          : "text-emerald-500"
+                      }`}
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2 mb-1">
+                        <span className="text-sm font-medium text-gray-700 truncate">
+                          {service.name}
+                        </span>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <span className="text-xs text-gray-400">
+                            Tier {tier}
+                          </span>
+                          {hasSubServices && (
+                            <motion.div
+                              animate={{ rotate: isExpanded ? 180 : 0 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <ChevronDown className="w-4 h-4 text-gray-400" />
+                            </motion.div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                          <div
+                            className={`h-full rounded-full ${
+                              atMinimum
+                                ? "bg-amber-400"
+                                : tier === 4
+                                ? "bg-teal-600"
+                                : "bg-emerald-400"
+                            }`}
+                            style={{ width: `${Math.min(100, (allocation / service.maxCost) * 100)}%` }}
+                          />
+                        </div>
+                        <span className="text-xs text-gray-500 w-16 text-right tabular-nums">
+                          {formatCurrency(allocation, state.currencySymbol)}
+                        </span>
+                      </div>
                     </div>
-                    <span className="text-xs text-gray-500 w-16 text-right tabular-nums">
-                      {formatCurrency(allocation, state.currencySymbol)}
-                    </span>
                   </div>
+
+                  {/* Sub-services Breakdown */}
+                  <AnimatePresence>
+                    {isExpanded && hasSubServices && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="overflow-hidden"
+                      >
+                        <div className="ml-8 mt-2 pl-3 border-l-2 border-gray-100 space-y-2">
+                          {service.subServices!.map((subService) => {
+                            const subAllocation = state.subAllocations[service.id]?.[subService.id] || 0;
+                            const subPercentage = getSubAllocationPercentage(state, service.id, subService.id);
+                            const isSubAtMinimum = subPercentage <= subService.minPercentage + 0.001;
+
+                            return (
+                              <div key={subService.id} className="flex items-center gap-2">
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center justify-between gap-2 mb-0.5">
+                                    <div className="flex items-center gap-1.5">
+                                      <span className="text-xs text-gray-600 truncate">
+                                        {subService.name}
+                                      </span>
+                                      {isSubAtMinimum && (
+                                        <span className="text-[9px] font-medium text-amber-600 bg-amber-50 px-1 py-0.5 rounded">
+                                          MIN
+                                        </span>
+                                      )}
+                                    </div>
+                                    <span className="text-xs text-gray-400 shrink-0">
+                                      {Math.round(subPercentage * 100)}%
+                                    </span>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <div className="flex-1 h-1 bg-gray-100 rounded-full overflow-hidden">
+                                      <motion.div
+                                        className={`h-full rounded-full ${
+                                          isSubAtMinimum
+                                            ? "bg-amber-300"
+                                            : tier === 4
+                                            ? "bg-teal-400"
+                                            : "bg-emerald-300"
+                                        }`}
+                                        initial={{ width: 0 }}
+                                        animate={{ width: `${subPercentage * 100}%` }}
+                                        transition={{ duration: 0.3, delay: 0.1 }}
+                                      />
+                                    </div>
+                                    <span className="text-xs text-gray-400 w-14 text-right tabular-nums">
+                                      {formatCurrency(subAllocation, state.currencySymbol)}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </Card>
 

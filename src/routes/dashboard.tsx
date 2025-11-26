@@ -8,6 +8,7 @@ import {
   getRemainingFunds,
   getTotalBudget,
   finalizeBudget,
+  setAllocationsWithSubAllocations,
 } from "@/store/budgetStore";
 import { CheckCircle, ArrowRight, Equal, Shuffle, RotateCcw } from "lucide-react";
 import {
@@ -46,7 +47,7 @@ function DashboardPage() {
     });
 
     // Calculate remaining budget after minimums
-    let discretionary = totalBudget - totalMinRequired;
+    const discretionary = totalBudget - totalMinRequired;
 
     // Distribute remaining evenly across services (up to their max)
     const perService = discretionary / SERVICES_DATA.length;
@@ -58,10 +59,7 @@ function DashboardPage() {
       newAllocations[service.id] = currentAllocation + toAdd;
     });
 
-    budgetStore.setState((s) => ({
-      ...s,
-      allocations: newAllocations,
-    }));
+    setAllocationsWithSubAllocations(newAllocations);
   };
 
   const handleRandomize = () => {
@@ -72,7 +70,7 @@ function DashboardPage() {
     });
 
     // Calculate remaining budget after minimums
-    let discretionary = totalBudget - totalMinRequired;
+    const discretionary = totalBudget - totalMinRequired;
 
     // Generate random weights for distribution
     const weights = SERVICES_DATA.map(() => Math.random());
@@ -88,10 +86,7 @@ function DashboardPage() {
       newAllocations[service.id] = currentAllocation + toAdd;
     });
 
-    budgetStore.setState((s) => ({
-      ...s,
-      allocations: newAllocations,
-    }));
+    setAllocationsWithSubAllocations(newAllocations);
   };
 
   const handleResetToMinimum = () => {
@@ -99,10 +94,7 @@ function DashboardPage() {
     SERVICES_DATA.forEach((s) => {
       resetAllocations[s.id] = s.minCost;
     });
-    budgetStore.setState((s) => ({
-      ...s,
-      allocations: resetAllocations,
-    }));
+    setAllocationsWithSubAllocations(resetAllocations);
   };
 
   return (

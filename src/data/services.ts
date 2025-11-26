@@ -51,6 +51,26 @@ export const SERVICES_DATA: Service[] = [
 				visualState: "Gold-standard treasury.",
 			},
 		],
+		subServices: [
+			{
+				id: "interest",
+				name: "Interest Payments",
+				defaultPercentage: 0.5,
+				minPercentage: 0.3,
+			},
+			{
+				id: "bonds",
+				name: "Bond Obligations",
+				defaultPercentage: 0.3,
+				minPercentage: 0.15,
+			},
+			{
+				id: "management",
+				name: "Debt Management",
+				defaultPercentage: 0.2,
+				minPercentage: 0.1,
+			},
+		],
 	},
 	{
 		id: "health",
@@ -98,6 +118,32 @@ export const SERVICES_DATA: Service[] = [
 				visualState: "Modern preventive care clinic.",
 			},
 		],
+		subServices: [
+			{
+				id: "hospitals",
+				name: "Hospitals",
+				defaultPercentage: 0.4,
+				minPercentage: 0.2,
+			},
+			{
+				id: "pharmaceuticals",
+				name: "Pharmaceuticals",
+				defaultPercentage: 0.25,
+				minPercentage: 0.1,
+			},
+			{
+				id: "mental-health",
+				name: "Mental Health",
+				defaultPercentage: 0.2,
+				minPercentage: 0.1,
+			},
+			{
+				id: "pandemic",
+				name: "Pandemic Control",
+				defaultPercentage: 0.15,
+				minPercentage: 0.05,
+			},
+		],
 	},
 	{
 		id: "infrastructure",
@@ -140,6 +186,38 @@ export const SERVICES_DATA: Service[] = [
 				perk: "Zero-Fare Transport",
 				benefit: "All subways, buses, and trains are 100% free for everyone.",
 				visualState: "Futuristic autonomous transport pods.",
+			},
+		],
+		subServices: [
+			{
+				id: "roads",
+				name: "Roads",
+				defaultPercentage: 0.3,
+				minPercentage: 0.1,
+			},
+			{
+				id: "rail",
+				name: "Rail",
+				defaultPercentage: 0.25,
+				minPercentage: 0.05,
+			},
+			{
+				id: "water",
+				name: "Water Systems",
+				defaultPercentage: 0.2,
+				minPercentage: 0.1,
+			},
+			{
+				id: "internet",
+				name: "Internet",
+				defaultPercentage: 0.15,
+				minPercentage: 0.05,
+			},
+			{
+				id: "waste",
+				name: "Waste Management",
+				defaultPercentage: 0.1,
+				minPercentage: 0.05,
 			},
 		],
 	},
@@ -189,6 +267,38 @@ export const SERVICES_DATA: Service[] = [
 				visualState: "Joint military exercise.",
 			},
 		],
+		subServices: [
+			{
+				id: "military",
+				name: "Military",
+				defaultPercentage: 0.35,
+				minPercentage: 0.1,
+			},
+			{
+				id: "police",
+				name: "Police",
+				defaultPercentage: 0.25,
+				minPercentage: 0.15,
+			},
+			{
+				id: "fire",
+				name: "Fire Services",
+				defaultPercentage: 0.15,
+				minPercentage: 0.1,
+			},
+			{
+				id: "cyber",
+				name: "Cyber-Security",
+				defaultPercentage: 0.15,
+				minPercentage: 0.05,
+			},
+			{
+				id: "borders",
+				name: "Border Security",
+				defaultPercentage: 0.1,
+				minPercentage: 0.05,
+			},
+		],
 	},
 	{
 		id: "education",
@@ -232,6 +342,38 @@ export const SERVICES_DATA: Service[] = [
 				benefit:
 					"Top 10 global university rankings. R&D spending at 3%+ GDP. Thriving startup ecosystem.",
 				visualState: "Research campus with tech companies.",
+			},
+		],
+		subServices: [
+			{
+				id: "schools",
+				name: "Schools",
+				defaultPercentage: 0.35,
+				minPercentage: 0.2,
+			},
+			{
+				id: "universities",
+				name: "Universities",
+				defaultPercentage: 0.3,
+				minPercentage: 0.1,
+			},
+			{
+				id: "research",
+				name: "R&D Grants",
+				defaultPercentage: 0.2,
+				minPercentage: 0.05,
+			},
+			{
+				id: "space",
+				name: "Space Agencies",
+				defaultPercentage: 0.1,
+				minPercentage: 0.02,
+			},
+			{
+				id: "arts",
+				name: "Arts & Culture",
+				defaultPercentage: 0.05,
+				minPercentage: 0.02,
 			},
 		],
 	},
@@ -278,6 +420,32 @@ export const SERVICES_DATA: Service[] = [
 				visualState: "Sustainable green city.",
 			},
 		],
+		subServices: [
+			{
+				id: "parks",
+				name: "Parks & Conservation",
+				defaultPercentage: 0.2,
+				minPercentage: 0.05,
+			},
+			{
+				id: "pollution",
+				name: "Pollution Control",
+				defaultPercentage: 0.25,
+				minPercentage: 0.1,
+			},
+			{
+				id: "energy",
+				name: "Green Energy",
+				defaultPercentage: 0.35,
+				minPercentage: 0.1,
+			},
+			{
+				id: "agriculture",
+				name: "Agriculture",
+				defaultPercentage: 0.2,
+				minPercentage: 0.1,
+			},
+		],
 	},
 	{
 		id: "social",
@@ -320,6 +488,32 @@ export const SERVICES_DATA: Service[] = [
 				benefit:
 					"Every citizen receives a monthly stipend to cover basic needs.",
 				visualState: "Utopian community gathering.",
+			},
+		],
+		subServices: [
+			{
+				id: "pensions",
+				name: "Pensions",
+				defaultPercentage: 0.45,
+				minPercentage: 0.2,
+			},
+			{
+				id: "unemployment",
+				name: "Unemployment",
+				defaultPercentage: 0.2,
+				minPercentage: 0.1,
+			},
+			{
+				id: "housing",
+				name: "Housing",
+				defaultPercentage: 0.2,
+				minPercentage: 0.1,
+			},
+			{
+				id: "childcare",
+				name: "Childcare",
+				defaultPercentage: 0.15,
+				minPercentage: 0.05,
 			},
 		],
 	},
@@ -365,6 +559,32 @@ export const SERVICES_DATA: Service[] = [
 				benefit:
 					"Open data government. Independent anti-corruption courts. Top global trust and transparency rankings.",
 				visualState: "Open government data portal.",
+			},
+		],
+		subServices: [
+			{
+				id: "admin",
+				name: "Administration",
+				defaultPercentage: 0.3,
+				minPercentage: 0.15,
+			},
+			{
+				id: "tax",
+				name: "Tax Collection",
+				defaultPercentage: 0.25,
+				minPercentage: 0.15,
+			},
+			{
+				id: "foreign-aid",
+				name: "Foreign Aid",
+				defaultPercentage: 0.2,
+				minPercentage: 0.05,
+			},
+			{
+				id: "justice",
+				name: "Justice System",
+				defaultPercentage: 0.25,
+				minPercentage: 0.1,
 			},
 		],
 	},
