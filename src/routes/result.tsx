@@ -234,7 +234,7 @@ function ResultPage() {
           <Button
             onClick={() => {
               const text = encodeURIComponent(
-                `My government is ${archetype?.name}! I allocated a national budget on The People's Ledger. Try it yourself!`
+                `My government is ${archetype?.name}! I allocated a national budget on Govern. Try it yourself!`
               );
               const url = encodeURIComponent(window.location.origin);
               window.open(
