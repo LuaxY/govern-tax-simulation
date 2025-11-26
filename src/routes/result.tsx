@@ -8,13 +8,13 @@ import {
   resetBudget,
   getServiceTierLevel,
   getPoliticalArchetype,
-  getSpendableBudget,
-  isServiceCollapsed,
+  isServiceAtMinimum,
 } from "@/store/budgetStore";
+import { formatCurrency } from "@/lib/utils";
 import {
   RefreshCw,
   Trophy,
-  AlertTriangle,
+  MinusCircle,
   Share2,
   CheckCircle,
   ArrowLeft,
@@ -30,7 +30,6 @@ function ResultPage() {
   const navigate = useNavigate();
   const state = useStore(budgetStore);
   const archetype = getPoliticalArchetype(state);
-  const spendable = getSpendableBudget(state);
   const isEditingRef = useRef(false);
 
   // Redirect if not finalized (unless we're intentionally editing)
@@ -45,21 +44,20 @@ function ResultPage() {
     navigate({ to: "/" });
   };
 
-  // Get maxed services (Tier 4) and collapsed services
+  // Get maxed services (Tier 4) and minimum services
   const maxedServices = SERVICES_DATA.filter(
     (s) => getServiceTierLevel(state, s) === 4
   );
-  const collapsedServices = SERVICES_DATA.filter((s) =>
-    isServiceCollapsed(state, s)
+  const minimumServices = SERVICES_DATA.filter((s) =>
+    isServiceAtMinimum(state, s)
   );
 
   // Get all service stats for display
   const serviceStats = SERVICES_DATA.map((service) => ({
     service,
     tier: getServiceTierLevel(state, service),
-    allocation: state.allocations[service.id] || 0,
-    percentage: spendable > 0 ? ((state.allocations[service.id] || 0) / spendable) * 100 : 0,
-    collapsed: isServiceCollapsed(state, service),
+    allocation: state.allocations[service.id] || service.minCost,
+    atMinimum: isServiceAtMinimum(state, service),
   })).sort((a, b) => b.allocation - a.allocation);
 
   return (
@@ -74,7 +72,7 @@ function ResultPage() {
             Budget Finalized
           </h1>
           <p className="text-gray-500">
-            Here's how your society would look based on your choices
+            Here's how your nation would look based on your government's priorities
           </p>
         </div>
 
@@ -87,7 +85,7 @@ function ResultPage() {
               </div>
               <div>
                 <p className="text-xs text-teal-700 font-semibold uppercase tracking-wider mb-1">
-                  Your Political Archetype
+                  Your Government's Identity
                 </p>
                 <h2 className="text-xl font-semibold text-gray-900 mb-1">
                   {archetype.name}
@@ -128,23 +126,23 @@ function ResultPage() {
             )}
           </Card>
 
-          {/* Collapsed Services */}
+          {/* Minimum Services */}
           <Card className="bg-white border border-gray-200 rounded-xl p-5">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center">
-                <AlertTriangle className="w-4 h-4 text-red-600" />
+              <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center">
+                <MinusCircle className="w-4 h-4 text-amber-600" />
               </div>
               <div>
-                <p className="font-medium text-gray-900 text-sm">Collapsed</p>
-                <p className="text-xs text-gray-400">Below threshold</p>
+                <p className="font-medium text-gray-900 text-sm">At Minimum</p>
+                <p className="text-xs text-gray-400">Just viable</p>
               </div>
             </div>
-            {collapsedServices.length > 0 ? (
+            {minimumServices.length > 0 ? (
               <div className="space-y-1.5">
-                {collapsedServices.map((s) => (
+                {minimumServices.map((s) => (
                   <div
                     key={s.id}
-                    className="flex items-center gap-2 text-sm text-red-600"
+                    className="flex items-center gap-2 text-sm text-amber-600"
                   >
                     <ServiceIcon iconName={s.icon} className="w-4 h-4" />
                     <span className="truncate">{s.name}</span>
@@ -154,7 +152,7 @@ function ResultPage() {
             ) : (
               <p className="text-sm text-teal-600 flex items-center gap-1.5">
                 <CheckCircle className="w-3.5 h-3.5" />
-                All operational
+                All above minimum
               </p>
             )}
           </Card>
@@ -164,7 +162,7 @@ function ResultPage() {
         <Card className="bg-white border border-gray-200 rounded-xl p-5 mb-6">
           <h3 className="font-medium text-gray-900 mb-4">Budget Breakdown</h3>
           <div className="space-y-3">
-            {serviceStats.map(({ service, tier, allocation, collapsed }) => (
+            {serviceStats.map(({ service, tier, allocation, atMinimum }) => (
               <div
                 key={service.id}
                 className="flex items-center gap-3"
@@ -172,8 +170,8 @@ function ResultPage() {
                 <ServiceIcon
                   iconName={service.icon}
                   className={`w-5 h-5 shrink-0 ${
-                    collapsed
-                      ? "text-red-500"
+                    atMinimum
+                      ? "text-amber-500"
                       : tier === 4
                       ? "text-teal-600"
                       : "text-emerald-500"
@@ -192,17 +190,17 @@ function ResultPage() {
                     <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                       <div
                         className={`h-full rounded-full ${
-                          collapsed
-                            ? "bg-red-500"
+                          atMinimum
+                            ? "bg-amber-400"
                             : tier === 4
                             ? "bg-teal-600"
                             : "bg-emerald-400"
                         }`}
-                        style={{ width: `${Math.min(100, (allocation / (spendable * service.maxCost)) * 100)}%` }}
+                        style={{ width: `${Math.min(100, (allocation / service.maxCost) * 100)}%` }}
                       />
                     </div>
                     <span className="text-xs text-gray-500 w-16 text-right tabular-nums">
-                      {state.currencySymbol}{allocation.toLocaleString()}
+                      {formatCurrency(allocation, state.currencySymbol)}
                     </span>
                   </div>
                 </div>
@@ -236,7 +234,7 @@ function ResultPage() {
           <Button
             onClick={() => {
               const text = encodeURIComponent(
-                `I'm ${archetype?.name}! I allocated my taxes on The People's Ledger. Try it yourself!`
+                `My government is ${archetype?.name}! I allocated a national budget on The People's Ledger. Try it yourself!`
               );
               const url = encodeURIComponent(window.location.origin);
               window.open(

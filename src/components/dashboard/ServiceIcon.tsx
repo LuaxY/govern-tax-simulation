@@ -6,6 +6,7 @@ import {
   TreePine,
   Users,
   Landmark,
+  Banknote,
   HelpCircle,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -18,6 +19,7 @@ const iconMap: Record<string, LucideIcon> = {
   TreePine,
   Users,
   Landmark,
+  Banknote,
 };
 
 interface ServiceIconProps {

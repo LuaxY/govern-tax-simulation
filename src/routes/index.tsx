@@ -1,40 +1,22 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { setTaxInput, setCurrencySymbol } from "@/store/budgetStore";
-import { Wallet, ArrowRight, DollarSign, Euro, PoundSterling } from "lucide-react";
+import { resetBudget } from "@/store/budgetStore";
+import { APP_CONFIG } from "@/data/services";
+import { Landmark, ArrowRight, Scale } from "lucide-react";
+import { formatCurrency } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   component: SetupPage,
 });
 
-const currencies = [
-  { symbol: "$", icon: DollarSign, name: "USD" },
-  { symbol: "€", icon: Euro, name: "EUR" },
-  { symbol: "£", icon: PoundSterling, name: "GBP" },
-];
-
 function SetupPage() {
   const navigate = useNavigate();
-  const [taxAmount, setTaxAmount] = useState<string>("");
-  const [selectedCurrency, setSelectedCurrency] = useState(currencies[0]);
 
-  const handleSubmit = () => {
-    const amount = parseFloat(taxAmount.replace(/,/g, ""));
-    if (amount > 0) {
-      setCurrencySymbol(selectedCurrency.symbol);
-      setTaxInput(amount);
-      navigate({ to: "/dashboard" });
-    }
+  const handleStart = () => {
+    // Reset budget to initial state (all services at minimum)
+    resetBudget();
+    navigate({ to: "/dashboard" });
   };
-
-  const formatNumber = (value: string) => {
-    const num = value.replace(/[^\d]/g, "");
-    return num.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
-
-  const parsedAmount = parseFloat(taxAmount.replace(/,/g, "")) || 0;
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12">
@@ -42,73 +24,66 @@ function SetupPage() {
         {/* Header */}
         <div className="text-center mb-10">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-teal-700 mb-5">
-            <Wallet className="w-7 h-7 text-white" />
+            <Landmark className="w-7 h-7 text-white" />
           </div>
           <h1 className="text-3xl font-semibold text-gray-900 mb-3 font-serif">
             The People's Ledger
           </h1>
           <p className="text-gray-500 leading-relaxed">
-            Allocate your tax contribution to public services and see the impact of your choices.
+            You are the Finance Minister. Allocate your nation's budget and discover the trade-offs of governance.
           </p>
         </div>
 
-        {/* Input Card */}
+        {/* Budget Card */}
         <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Income Tax Paid Last Year
-          </label>
-
-          {/* Currency selector */}
-          <div className="flex gap-2 mb-3">
-            {currencies.map((currency) => (
-              <button
-                key={currency.symbol}
-                onClick={() => setSelectedCurrency(currency)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors ${
-                  selectedCurrency.symbol === currency.symbol
-                    ? "bg-teal-50 border-teal-600 text-teal-700"
-                    : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
-                }`}
-              >
-                <currency.icon className="w-3.5 h-3.5" />
-                {currency.name}
-              </button>
-            ))}
+          {/* Fixed budget display */}
+          <div className="text-center mb-6">
+            <p className="text-sm text-gray-500 mb-2">National Annual Budget</p>
+            <p className="text-4xl font-bold text-teal-700 tabular-nums">
+              {formatCurrency(APP_CONFIG.fixedBudget, APP_CONFIG.currencySymbol)}
+            </p>
           </div>
 
-          {/* Amount input */}
-          <div className="relative mb-4">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-lg text-gray-400 font-medium">
-              {selectedCurrency.symbol}
-            </span>
-            <Input
-              type="text"
-              value={taxAmount}
-              onChange={(e) => setTaxAmount(formatNumber(e.target.value))}
-              placeholder="15,000"
-              className="pl-8 py-5 text-xl font-medium bg-white border-gray-200 rounded-lg focus:border-teal-500 focus:ring-teal-500/20"
-            />
+          {/* Info cards */}
+          <div className="grid grid-cols-2 gap-3 mb-6">
+            <div className="bg-gray-50 rounded-lg p-3">
+              <div className="flex items-center gap-2 text-gray-600 mb-1">
+                <Scale className="w-4 h-4" />
+                <span className="text-xs font-medium">8 Services</span>
+              </div>
+              <p className="text-xs text-gray-500">
+                Each with mandatory minimum funding
+              </p>
+            </div>
+            <div className="bg-amber-50 rounded-lg p-3">
+              <div className="flex items-center gap-2 text-amber-700 mb-1">
+                <Landmark className="w-4 h-4" />
+                <span className="text-xs font-medium">Trade-offs Required</span>
+              </div>
+              <p className="text-xs text-amber-600">
+                Can't fund everything fully
+              </p>
+            </div>
           </div>
 
           {/* Info text */}
-          <p className="text-xs text-gray-400 mb-5">
-            5% will be allocated to bureaucracy overhead automatically
+          <p className="text-xs text-gray-400 mb-5 text-center">
+            All services start at minimum viable funding. You decide where to invest more.
           </p>
 
-          {/* Submit button */}
+          {/* Start button */}
           <Button
-            onClick={handleSubmit}
-            disabled={parsedAmount <= 0}
-            className="w-full py-5 text-base font-medium bg-teal-700 hover:bg-teal-800 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            onClick={handleStart}
+            className="w-full py-5 text-base font-medium bg-teal-700 hover:bg-teal-800 rounded-lg"
           >
-            Start Simulation
+            Begin Allocation
             <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
         </div>
 
         {/* Footer hint */}
         <p className="text-center text-gray-400 text-sm mt-6">
-          Your choices unlock societal perks • Zero real money involved
+          Every choice has consequences • Trade-offs are inevitable
         </p>
       </div>
     </div>

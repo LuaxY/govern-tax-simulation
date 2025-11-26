@@ -1,16 +1,31 @@
-### 📝 Developer Note: The Math Model
-*   **Total Budget:** 100% (represented as `1.0`).
-*   **Fixed Bureaucracy Cost:** 5% (Off the top).
-*   **Minimum to Survive (Tier 1):** ~3-5% per category.
-*   **Cost to Max Out (Tier 4):** ~18-20% per category.
-*   **Logic:** If a user attempts to max out all 7 categories, they would need ~140% of their budget. This forces the user to choose specific paths.
+### 📝 Developer Note: The Math Model (Government Budget Perspective)
+*   **Total Budget:** 100% (represented as `1.0`). Default: $500 billion.
+*   **Fixed Debt Servicing:** 10% (Off the top, non-negotiable).
+*   **Spendable Budget:** 90% of total after debt servicing.
+*   **Minimum to Survive (Tier 1):** ~84% of budget across all services.
+*   **Cost to Max Out (Tier 4):** ~173% of budget across all services.
+*   **Logic:** Just meeting bare minimums consumes most of the budget. Upgrading ANY service requires sacrificing another. Real governance pain.
+
+| Service | Min Cost | Max Cost | Notes |
+|---------|----------|----------|-------|
+| Health | 18% | 35% | Healthcare is non-negotiable |
+| Social Protection | 25% | 45% | Largest chunk: pensions, unemployment, childcare |
+| Defense | 6% | 18% | Security has a floor |
+| Education | 10% | 22% | R&D and higher education |
+| Infrastructure | 8% | 20% | Roads, rail, internet |
+| Environment | 5% | 15% | Climate action |
+| Governance | 12% | 18% | Admin, justice, diplomacy |
+
+**Totals:** Min ~84% | Max ~173% (brutal trade-offs required)
 
 ---
 
 ```typescript
 export const APP_CONFIG = {
-  bureaucracyTaxRate: 0.05, // 5% taken automatically for admin overhead
-  currencySymbol: "$", // Can be swapped for € or £
+  debtServicingRate: 0.10, // 10% taken automatically for debt servicing
+  bureaucracyTaxRate: 0.10, // Alias for backwards compatibility
+  currencySymbol: "$", // Default currency (USD, EUR, GBP available)
+  defaultBudget: 500_000_000_000, // 500 billion default budget
 };
 
 export const SERVICES_DATA = [
@@ -19,8 +34,8 @@ export const SERVICES_DATA = [
     name: "Public Health & Well-being",
     icon: "HeartPulse", // Lucide-React Icon Name
     description: "Hospitals, Pharmaceuticals, Mental Health, and Pandemic Control.",
-    minCost: 0.05, // 5% of budget required to avoid collapse
-    maxCost: 0.20, // 20% of budget to reach Utopia
+    minCost: 0.18, // 18% of budget required to avoid collapse
+    maxCost: 0.35, // 35% of budget to reach Utopia
     tiers: [
       {
         level: 1,
@@ -61,8 +76,8 @@ export const SERVICES_DATA = [
     name: "Infrastructure & Transport",
     icon: "TrainFront",
     description: "Roads, Rail, Water Systems, Internet, and Waste Management.",
-    minCost: 0.04,
-    maxCost: 0.18,
+    minCost: 0.08,
+    maxCost: 0.20,
     tiers: [
       {
         level: 1,
@@ -103,7 +118,7 @@ export const SERVICES_DATA = [
     name: "Safety & Defense",
     icon: "ShieldCheck",
     description: "Military, Police, Fire Services, Cyber-Security, and Borders.",
-    minCost: 0.04,
+    minCost: 0.06,
     maxCost: 0.18,
     tiers: [
       {
@@ -145,8 +160,8 @@ export const SERVICES_DATA = [
     name: "Education & Innovation",
     icon: "GraduationCap",
     description: "Schools, Universities, R&D Grants, Space Agencies, and Arts.",
-    minCost: 0.05,
-    maxCost: 0.20,
+    minCost: 0.10,
+    maxCost: 0.22,
     tiers: [
       {
         level: 1,
@@ -187,7 +202,7 @@ export const SERVICES_DATA = [
     name: "Environment & Resources",
     icon: "TreePine",
     description: "Parks, Pollution Control, Green Energy, and Agriculture.",
-    minCost: 0.03,
+    minCost: 0.05,
     maxCost: 0.15,
     tiers: [
       {
@@ -229,8 +244,8 @@ export const SERVICES_DATA = [
     name: "Social Protection",
     icon: "Users",
     description: "Pensions, Unemployment, Housing, and Childcare.",
-    minCost: 0.05,
-    maxCost: 0.18,
+    minCost: 0.25,
+    maxCost: 0.45,
     tiers: [
       {
         level: 1,
@@ -271,8 +286,8 @@ export const SERVICES_DATA = [
     name: "Governance & Diplomacy",
     icon: "Landmark",
     description: "Administration, Tax Collection, Foreign Aid, and Justice.",
-    minCost: 0.03,
-    maxCost: 0.10,
+    minCost: 0.12,
+    maxCost: 0.18,
     tiers: [
       {
         level: 1,

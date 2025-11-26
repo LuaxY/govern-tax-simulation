@@ -12,8 +12,8 @@ export interface Service {
   name: string;
   icon: string; // Lucide icon name
   description: string;
-  minCost: number; // Min % of budget to avoid collapse
-  maxCost: number; // Max % of budget to reach Utopia
+  minCost: number; // Min dollar amount (Tier 1 threshold)
+  maxCost: number; // Max dollar amount (Tier 4 / Utopia)
   tiers: Tier[];
 }
 
