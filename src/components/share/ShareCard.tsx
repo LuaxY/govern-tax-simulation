@@ -1,3 +1,4 @@
+import type { RefObject } from "react";
 import type { PolicyTrait } from "@/data/services";
 import { SERVICES_DATA } from "@/data/services";
 import { formatCurrency } from "@/lib/utils";

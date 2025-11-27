@@ -9,9 +9,10 @@ const router = createRouter({ routeTree });
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
-  type Register = {
+  // biome-ignore lint/style/useConsistentTypeDefinitions: needed for type safety
+  interface Register {
     router: typeof router;
-  };
+  }
 }
 
 const rootElement = document.getElementById("root");
