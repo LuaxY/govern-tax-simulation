@@ -1,8 +1,8 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { useStore } from "@tanstack/react-store";
 import { Toaster } from "sonner";
 import { WalletBar } from "@/components/layout/WalletBar";
-import { useStore } from "@tanstack/react-store";
-import { budgetStore } from "@/store/budgetStore";
+import { budgetStore } from "@/store/budget-store";
 
 export const Route = createRootRoute({
   component: RootComponent,

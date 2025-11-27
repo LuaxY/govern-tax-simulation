@@ -1,22 +1,28 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useStore } from "@tanstack/react-store";
-import { Button } from "@/components/ui/button";
-import { ServiceCard } from "@/components/dashboard/ServiceCard";
-import { APP_CONFIG, SERVICES_DATA } from "@/data/services";
 import {
-  budgetStore,
-  getRemainingFunds,
-  getTotalBudget,
-  finalizeBudget,
-  setAllocationsWithSubAllocations,
-} from "@/store/budgetStore";
-import { CheckCircle, ArrowRight, Equal, Shuffle, RotateCcw } from "lucide-react";
+  ArrowRight,
+  CheckCircle,
+  Equal,
+  RotateCcw,
+  Shuffle,
+} from "lucide-react";
+import { ServiceCard } from "@/components/dashboard/ServiceCard";
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { SERVICES_DATA } from "@/data/services";
+import {
+  budgetStore,
+  finalizeBudget,
+  getRemainingFunds,
+  getTotalBudget,
+  setAllocationsWithSubAllocations,
+} from "@/store/budget-store";
 
 export const Route = createFileRoute("/dashboard")({
   component: DashboardPage,
@@ -42,22 +48,22 @@ function DashboardPage() {
   const handleDistributeEvenly = () => {
     // Start with all services at minimum
     const newAllocations: Record<string, number> = {};
-    SERVICES_DATA.forEach((service) => {
+    for (const service of SERVICES_DATA) {
       newAllocations[service.id] = service.minCost;
-    });
+    }
 
     // Calculate remaining budget after minimums
     const discretionary = totalBudget - totalMinRequired;
 
     // Distribute remaining evenly across services (up to their max)
     const perService = discretionary / SERVICES_DATA.length;
-    
-    SERVICES_DATA.forEach((service) => {
+
+    for (const service of SERVICES_DATA) {
       const currentAllocation = newAllocations[service.id];
       const maxAddable = service.maxCost - currentAllocation;
       const toAdd = Math.min(perService, maxAddable);
       newAllocations[service.id] = currentAllocation + toAdd;
-    });
+    }
 
     setAllocationsWithSubAllocations(newAllocations);
   };
@@ -65,9 +71,9 @@ function DashboardPage() {
   const handleRandomize = () => {
     // Start with all services at minimum
     const newAllocations: Record<string, number> = {};
-    SERVICES_DATA.forEach((service) => {
+    for (const service of SERVICES_DATA) {
       newAllocations[service.id] = service.minCost;
-    });
+    }
 
     // Calculate remaining budget after minimums
     const discretionary = totalBudget - totalMinRequired;
@@ -91,9 +97,9 @@ function DashboardPage() {
 
   const handleResetToMinimum = () => {
     const resetAllocations: Record<string, number> = {};
-    SERVICES_DATA.forEach((s) => {
+    for (const s of SERVICES_DATA) {
       resetAllocations[s.id] = s.minCost;
-    });
+    }
     setAllocationsWithSubAllocations(resetAllocations);
   };
 
@@ -101,24 +107,24 @@ function DashboardPage() {
     <TooltipProvider>
       <div className="min-h-screen pb-24">
         {/* Header */}
-        <div className="sticky top-[73px] z-20 bg-[#fafafa] border-b border-gray-100 py-4 px-4">
-          <div className="max-w-2xl mx-auto flex items-center justify-between gap-3">
+        <div className="sticky top-[73px] z-20 border-gray-100 border-b bg-[#fafafa] px-4 py-4">
+          <div className="mx-auto flex max-w-2xl items-center justify-between gap-3">
             <div className="min-w-0">
-              <h1 className="text-xl font-semibold text-gray-900">
+              <h1 className="font-semibold text-gray-900 text-xl">
                 Allocate the National Budget
               </h1>
-              <p className="text-sm text-gray-500 mt-0.5 hidden sm:block">
+              <p className="mt-0.5 hidden text-gray-500 text-sm sm:block">
                 Use the sliders to fund each government service
               </p>
             </div>
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex shrink-0 items-center gap-2">
               {/* Distribute Evenly Button */}
               <Button
-                variant="outline"
+                className="rounded-lg border-gray-200 px-3 py-2 font-medium text-gray-700 text-sm hover:bg-gray-50"
                 onClick={handleDistributeEvenly}
-                className="border-gray-200 text-gray-700 hover:bg-gray-50 rounded-lg px-3 py-2 font-medium text-sm"
+                variant="outline"
               >
-                <Equal className="w-4 h-4 mr-1.5" />
+                <Equal className="mr-1.5 h-4 w-4" />
                 <span className="hidden sm:inline">Distribute</span>
               </Button>
 
@@ -126,11 +132,11 @@ function DashboardPage() {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
-                    variant="outline"
+                    className="rounded-lg border-gray-200 px-2.5 py-2 text-gray-700 hover:bg-gray-50"
                     onClick={handleRandomize}
-                    className="border-gray-200 text-gray-700 hover:bg-gray-50 rounded-lg px-2.5 py-2"
+                    variant="outline"
                   >
-                    <Shuffle className="w-4 h-4" />
+                    <Shuffle className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>Randomize allocation</TooltipContent>
@@ -140,11 +146,11 @@ function DashboardPage() {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
-                    variant="outline"
+                    className="rounded-lg border-gray-200 px-2.5 py-2 text-gray-700 hover:bg-gray-50"
                     onClick={handleResetToMinimum}
-                    className="border-gray-200 text-gray-700 hover:bg-gray-50 rounded-lg px-2.5 py-2"
+                    variant="outline"
                   >
-                    <RotateCcw className="w-4 h-4" />
+                    <RotateCcw className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>Reset all to minimum</TooltipContent>
@@ -152,20 +158,20 @@ function DashboardPage() {
 
               {/* Finalize Button */}
               <Button
-                onClick={handleFinalize}
+                className="rounded-lg bg-teal-700 px-4 py-2 font-medium hover:bg-teal-800 disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={!canFinalize}
-                className="bg-teal-700 hover:bg-teal-800 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg px-4 py-2 font-medium"
+                onClick={handleFinalize}
               >
-                <CheckCircle className="w-4 h-4 mr-1.5" />
+                <CheckCircle className="mr-1.5 h-4 w-4" />
                 <span className="hidden sm:inline">Finalize</span>
-                <ArrowRight className="w-4 h-4 ml-1.5" />
+                <ArrowRight className="ml-1.5 h-4 w-4" />
               </Button>
             </div>
           </div>
         </div>
 
         {/* Service Cards - Vertical Stack */}
-        <div className="max-w-2xl mx-auto px-4 py-6">
+        <div className="mx-auto max-w-2xl px-4 py-6">
           <div className="space-y-4">
             {SERVICES_DATA.map((service) => (
               <ServiceCard key={service.id} service={service} />
@@ -175,9 +181,10 @@ function DashboardPage() {
 
         {/* Bottom Hint */}
         {!canFinalize && remaining > 0 && (
-          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white border border-gray-200 rounded-lg px-5 py-3 shadow-lg">
-            <p className="text-sm text-gray-600">
-              <span className="text-amber-600 font-medium">Tip:</span> Allocate the entire budget to finalize your government's priorities
+          <div className="-translate-x-1/2 fixed bottom-6 left-1/2 rounded-lg border border-gray-200 bg-white px-5 py-3 shadow-lg">
+            <p className="text-gray-600 text-sm">
+              <span className="font-medium text-amber-600">Tip:</span> Allocate
+              the entire budget to finalize your government's priorities
             </p>
           </div>
         )}

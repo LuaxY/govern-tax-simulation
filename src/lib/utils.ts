@@ -1,8 +1,8 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 /**
@@ -12,7 +12,7 @@ export function cn(...inputs: ClassValue[]) {
 export function formatCompactNumber(value: number): string {
   const absValue = Math.abs(value);
   const sign = value < 0 ? "-" : "";
-  
+
   if (absValue >= 1_000_000_000_000) {
     const num = absValue / 1_000_000_000_000;
     return `${sign}${num >= 100 ? num.toFixed(0) : num.toFixed(1)}T`;
@@ -25,8 +25,8 @@ export function formatCompactNumber(value: number): string {
     const num = absValue / 1_000_000;
     return `${sign}${num >= 100 ? num.toFixed(0) : num.toFixed(1)}M`;
   }
-  if (absValue >= 1_000) {
-    const num = absValue / 1_000;
+  if (absValue >= 1000) {
+    const num = absValue / 1000;
     return `${sign}${num >= 100 ? num.toFixed(0) : num.toFixed(1)}K`;
   }
   return `${sign}${absValue.toLocaleString()}`;

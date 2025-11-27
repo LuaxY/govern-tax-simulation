@@ -1,31 +1,92 @@
 import { useStore } from "@tanstack/react-store";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDown, Lock, MinusCircle, Sparkles, Unlock } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
-import { Slider } from "@/components/ui/slider";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ServiceIcon } from "./ServiceIcon";
-import type { Service } from "@/types";
+import { Slider } from "@/components/ui/slider";
+import { formatCurrency } from "@/lib/utils";
 import {
   budgetStore,
-  updateAllocation,
-  updateSubAllocation,
   getServiceAllocationPercentage,
   getServiceTierLevel,
-  isServiceAtMinimum,
   getStatusDescription,
   getSubAllocationPercentage,
-} from "@/store/budgetStore";
-import { formatCurrency } from "@/lib/utils";
-import { Lock, Unlock, Sparkles, MinusCircle, ChevronDown } from "lucide-react";
-import { useRef, useCallback, useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+  isServiceAtMinimum,
+  updateAllocation,
+  updateSubAllocation,
+} from "@/store/budget-store";
+import type { Service } from "@/types";
+import { ServiceIcon } from "./ServiceIcon";
 
-interface ServiceCardProps {
+type ServiceCardProps = {
   service: Service;
+};
+
+// Helper functions to replace nested ternaries
+function getBorderClass(atMinimum: boolean, currentTier: number): string {
+  if (atMinimum) {
+    return "border-amber-200 bg-amber-50/30";
+  }
+  if (currentTier === 4) {
+    return "border-teal-200 bg-teal-50/30";
+  }
+  return "border-gray-200";
+}
+
+function getIconBgClass(atMinimum: boolean, currentTier: number): string {
+  if (atMinimum) {
+    return "bg-amber-100";
+  }
+  if (currentTier === 4) {
+    return "bg-teal-100";
+  }
+  return "bg-emerald-50";
+}
+
+function getIconTextClass(atMinimum: boolean, currentTier: number): string {
+  if (atMinimum) {
+    return "text-amber-600";
+  }
+  if (currentTier === 4) {
+    return "text-teal-700";
+  }
+  return "text-emerald-500";
+}
+
+function getStatusTextClass(atMinimum: boolean, currentTier: number): string {
+  if (atMinimum) {
+    return "text-amber-600";
+  }
+  if (currentTier === 4) {
+    return "text-teal-600";
+  }
+  return "text-emerald-500";
+}
+
+function getProgressBarClass(atMinimum: boolean, currentTier: number): string {
+  if (atMinimum) {
+    return "bg-amber-400";
+  }
+  if (currentTier === 4) {
+    return "bg-teal-600";
+  }
+  return "bg-emerald-400";
+}
+
+function getSubProgressBarClass(isAtMin: boolean, currentTier: number): string {
+  if (isAtMin) {
+    return "bg-amber-300";
+  }
+  if (currentTier === 4) {
+    return "bg-teal-400";
+  }
+  return "bg-emerald-300";
 }
 
 export function ServiceCard({ service }: ServiceCardProps) {
@@ -42,17 +103,19 @@ export function ServiceCard({ service }: ServiceCardProps) {
   const hasSubServices = service.subServices && service.subServices.length > 0;
 
   // Calculate slider value (0-100 based on maxCost)
-  const sliderValue = service.maxCost > 0 ? (allocation / service.maxCost) * 100 : 0;
-  
+  const sliderValue =
+    service.maxCost > 0 ? (allocation / service.maxCost) * 100 : 0;
+
   // Calculate minimum slider position (can't go below this)
-  const minSliderValue = service.maxCost > 0 ? (service.minCost / service.maxCost) * 100 : 0;
+  const minSliderValue =
+    service.maxCost > 0 ? (service.minCost / service.maxCost) * 100 : 0;
 
   // Handle slider change
   const handleSliderChange = useCallback(
     (values: number[]) => {
       const newPercentage = values[0] / 100;
       const newAllocation = newPercentage * service.maxCost;
-      
+
       // Enforce minimum - can't go below minCost
       if (newAllocation < service.minCost) {
         updateAllocation(service.id, service.minCost);
@@ -80,15 +143,17 @@ export function ServiceCard({ service }: ServiceCardProps) {
       if (tier) {
         toast.success(`Unlocked: ${tier.perk}`, {
           description: tier.benefit,
-          icon: <Sparkles className="w-4 h-4 text-amber-500" />,
+          icon: <Sparkles className="h-4 w-4 text-amber-500" />,
         });
       }
     } else if (currentTier < previousTier.current && previousTier.current > 0) {
-      const lostTier = service.tiers.find((t) => t.level === previousTier.current);
+      const lostTier = service.tiers.find(
+        (t) => t.level === previousTier.current
+      );
       if (lostTier) {
         toast.error(`Perk Lost: ${lostTier.perk}`, {
           description: "Funding dropped below threshold",
-          icon: <MinusCircle className="w-4 h-4 text-red-500" />,
+          icon: <MinusCircle className="h-4 w-4 text-red-500" />,
         });
       }
     }
@@ -101,52 +166,34 @@ export function ServiceCard({ service }: ServiceCardProps) {
 
   return (
     <Card
-      className={`bg-white border rounded-xl transition-colors ${
-        atMinimum
-          ? "border-amber-200 bg-amber-50/30"
-          : currentTier === 4
-          ? "border-teal-200 bg-teal-50/30"
-          : "border-gray-200"
-      }`}
+      className={`rounded-xl border bg-white transition-colors ${getBorderClass(atMinimum, currentTier)}`}
     >
       <div className="p-5">
         {/* Header */}
-        <div className="flex items-start gap-4 mb-5">
+        <div className="mb-5 flex items-start gap-4">
           <div
-            className={`w-11 h-11 rounded-lg flex items-center justify-center shrink-0 ${
-              atMinimum
-                ? "bg-amber-100"
-                : currentTier === 4
-                ? "bg-teal-100"
-                : "bg-emerald-50"
-            }`}
+            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg ${getIconBgClass(atMinimum, currentTier)}`}
           >
             <ServiceIcon
+              className={`h-5 w-5 ${getIconTextClass(atMinimum, currentTier)}`}
               iconName={service.icon}
-              className={`w-5 h-5 ${
-                atMinimum
-                  ? "text-amber-600"
-                  : currentTier === 4
-                  ? "text-teal-700"
-                  : "text-emerald-500"
-              }`}
             />
           </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-gray-900 mb-0.5">
+          <div className="min-w-0 flex-1">
+            <h3 className="mb-0.5 font-semibold text-gray-900">
               {service.name}
             </h3>
-            <p className="text-sm text-gray-500 line-clamp-1">
+            <p className="line-clamp-1 text-gray-500 text-sm">
               {service.description}
             </p>
           </div>
-          <div className="text-right shrink-0">
-            <p className="text-lg font-semibold text-gray-900 tabular-nums">
+          <div className="shrink-0 text-right">
+            <p className="font-semibold text-gray-900 text-lg tabular-nums">
               {formatCurrency(Math.round(allocation), state.currencySymbol)}
             </p>
-            <p className={`text-xs font-medium ${
-              atMinimum ? "text-amber-600" : currentTier === 4 ? "text-teal-600" : "text-emerald-500"
-            }`}>
+            <p
+              className={`font-medium text-xs ${getStatusTextClass(atMinimum, currentTier)}`}
+            >
               {atMinimum ? "AT MINIMUM" : statusText}
             </p>
           </div>
@@ -154,22 +201,16 @@ export function ServiceCard({ service }: ServiceCardProps) {
 
         {/* Tier Progress Track */}
         <div className="relative mb-4">
-          <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+          <div className="h-2 overflow-hidden rounded-full bg-gray-100">
             <div
-              className={`h-full rounded-full transition-all duration-200 ${
-                atMinimum
-                  ? "bg-amber-400"
-                  : currentTier === 4
-                  ? "bg-teal-600"
-                  : "bg-emerald-400"
-              }`}
+              className={`h-full rounded-full transition-all duration-200 ${getProgressBarClass(atMinimum, currentTier)}`}
               style={{ width: `${percentage * 100}%` }}
             />
           </div>
 
           {/* Minimum marker */}
           <div
-            className="absolute top-1/2 -translate-y-1/2 w-0.5 h-4 bg-amber-500"
+            className="-translate-y-1/2 absolute top-1/2 h-4 w-0.5 bg-amber-500"
             style={{ left: `${minSliderValue}%` }}
             title="Minimum required"
           />
@@ -180,56 +221,60 @@ export function ServiceCard({ service }: ServiceCardProps) {
               <Popover key={tier.level}>
                 <PopoverTrigger asChild>
                   <button
-                    type="button"
-                    className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 touch-manipulation"
+                    className="-translate-y-1/2 -translate-x-1/2 absolute top-1/2 touch-manipulation"
                     style={{ left: `${tier.threshold * 100}%` }}
+                    type="button"
                   >
                     <div
-                      className={`w-5 h-5 rounded-full flex items-center justify-center border-2 transition-colors ${
+                      className={`flex h-5 w-5 items-center justify-center rounded-full border-2 transition-colors ${
                         percentage >= tier.threshold
-                          ? "bg-teal-600 border-teal-600"
-                          : "bg-white border-gray-300"
+                          ? "border-teal-600 bg-teal-600"
+                          : "border-gray-300 bg-white"
                       }`}
                     >
                       {percentage >= tier.threshold ? (
-                        <Unlock className="w-2.5 h-2.5 text-white" />
+                        <Unlock className="h-2.5 w-2.5 text-white" />
                       ) : (
-                        <Lock className="w-2.5 h-2.5 text-gray-400" />
+                        <Lock className="h-2.5 w-2.5 text-gray-400" />
                       )}
                     </div>
                   </button>
                 </PopoverTrigger>
                 <PopoverContent
+                  className="w-64 border-gray-200 bg-white p-3 shadow-lg"
                   side="top"
-                  className="w-64 p-3 bg-white border-gray-200 shadow-lg"
                   sideOffset={8}
                 >
                   <div className="flex items-start gap-2">
                     <div
-                      className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 ${
+                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
                         percentage >= tier.threshold
                           ? "bg-teal-100"
                           : "bg-gray-100"
                       }`}
                     >
                       {percentage >= tier.threshold ? (
-                        <Unlock className="w-3 h-3 text-teal-600" />
+                        <Unlock className="h-3 w-3 text-teal-600" />
                       ) : (
-                        <Lock className="w-3 h-3 text-gray-400" />
+                        <Lock className="h-3 w-3 text-gray-400" />
                       )}
                     </div>
-                    <div className="flex-1 min-w-0">
+                    <div className="min-w-0 flex-1">
                       <p className="font-medium text-gray-900 text-sm">
                         Tier {tier.level}: {tier.name}
                       </p>
-                      <p className="text-xs text-teal-600 font-medium mt-0.5">
+                      <p className="mt-0.5 font-medium text-teal-600 text-xs">
                         {tier.perk}
                       </p>
-                      <p className="text-xs text-gray-500 mt-1.5 leading-relaxed">
+                      <p className="mt-1.5 text-gray-500 text-xs leading-relaxed">
                         {tier.benefit}
                       </p>
-                      <p className="text-xs text-gray-400 mt-2 pt-2 border-t border-gray-100">
-                        Requires: {formatCurrency(Math.round(tier.threshold * service.maxCost), state.currencySymbol)}
+                      <p className="mt-2 border-gray-100 border-t pt-2 text-gray-400 text-xs">
+                        Requires:{" "}
+                        {formatCurrency(
+                          Math.round(tier.threshold * service.maxCost),
+                          state.currencySymbol
+                        )}
                       </p>
                     </div>
                   </div>
@@ -241,18 +286,22 @@ export function ServiceCard({ service }: ServiceCardProps) {
 
         {/* Slider - range from 0 to 100 but enforces minimum */}
         <Slider
-          value={[sliderValue]}
-          onValueChange={handleSliderChange}
-          min={0}
-          max={100}
-          step={0.5}
           className="mb-4"
+          max={100}
+          min={0}
+          onValueChange={handleSliderChange}
+          step={0.5}
+          value={[sliderValue]}
         />
 
         {/* Min/Max labels */}
-        <div className="flex justify-between text-xs text-gray-400 mb-3">
-          <span>Min: {formatCurrency(service.minCost, state.currencySymbol)}</span>
-          <span>Max: {formatCurrency(service.maxCost, state.currencySymbol)}</span>
+        <div className="mb-3 flex justify-between text-gray-400 text-xs">
+          <span>
+            Min: {formatCurrency(service.minCost, state.currencySymbol)}
+          </span>
+          <span>
+            Max: {formatCurrency(service.maxCost, state.currencySymbol)}
+          </span>
         </div>
 
         {/* Current tier / Next tier info */}
@@ -260,7 +309,9 @@ export function ServiceCard({ service }: ServiceCardProps) {
           {activeTier ? (
             <div>
               <span className="text-gray-500">Tier {activeTier.level}:</span>{" "}
-              <span className="font-medium text-gray-700">{activeTier.perk}</span>
+              <span className="font-medium text-gray-700">
+                {activeTier.perk}
+              </span>
             </div>
           ) : (
             <div className="text-gray-400">No tier unlocked</div>
@@ -268,7 +319,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
 
           {nextTier && (
             <div className="flex items-center gap-1.5 text-gray-400">
-              <Lock className="w-3 h-3" />
+              <Lock className="h-3 w-3" />
               <span className="text-xs">Next: {nextTier.perk}</span>
             </div>
           )}
@@ -277,18 +328,19 @@ export function ServiceCard({ service }: ServiceCardProps) {
         {/* Expand/Collapse Button for Sub-Services */}
         {hasSubServices && (
           <button
-            type="button"
+            className="mt-4 flex w-full items-center justify-center gap-2 border-gray-100 border-t pt-4 text-gray-500 text-sm transition-colors hover:text-gray-700"
             onClick={() => setIsExpanded(!isExpanded)}
-            className="w-full mt-4 pt-4 border-t border-gray-100 flex items-center justify-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition-colors"
+            type="button"
           >
             <span>
-              {isExpanded ? "Hide" : "Show"} breakdown ({service.subServices!.length} sub-services)
+              {isExpanded ? "Hide" : "Show"} breakdown (
+              {service.subServices?.length} sub-services)
             </span>
             <motion.div
               animate={{ rotate: isExpanded ? 180 : 0 }}
               transition={{ duration: 0.2 }}
             >
-              <ChevronDown className="w-4 h-4" />
+              <ChevronDown className="h-4 w-4" />
             </motion.div>
           </button>
         )}
@@ -297,93 +349,97 @@ export function ServiceCard({ service }: ServiceCardProps) {
         <AnimatePresence>
           {isExpanded && hasSubServices && (
             <motion.div
-              initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
               className="overflow-hidden"
+              exit={{ height: 0, opacity: 0 }}
+              initial={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              <div className="mt-4 pt-4 border-t border-gray-100 space-y-4">
-                {service.subServices!.map((subService) => {
-                  const subAllocation = state.subAllocations[service.id]?.[subService.id] || 0;
-                  const subPercentage = getSubAllocationPercentage(state, service.id, subService.id);
+              <div className="mt-4 space-y-4 border-gray-100 border-t pt-4">
+                {service.subServices?.map((subService) => {
+                  const subAllocation =
+                    state.subAllocations[service.id]?.[subService.id] || 0;
+                  const subPercentage = getSubAllocationPercentage(
+                    state,
+                    service.id,
+                    subService.id
+                  );
                   const subSliderValue = subPercentage * 100;
-                  const minSliderValue = subService.minPercentage * 100;
-                  const isAtMinimum = subPercentage <= subService.minPercentage + 0.001;
+                  const subMinSliderValue = subService.minPercentage * 100;
+                  const isSubAtMinimum =
+                    subPercentage <= subService.minPercentage + 0.001;
 
                   return (
-                    <div key={subService.id} className="space-y-2">
+                    <div className="space-y-2" key={subService.id}>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium text-gray-700">
+                          <span className="font-medium text-gray-700 text-sm">
                             {subService.name}
                           </span>
-                          {isAtMinimum && (
-                            <span className="text-[10px] font-medium text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded">
+                          {isSubAtMinimum && (
+                            <span className="rounded bg-amber-50 px-1.5 py-0.5 font-medium text-[10px] text-amber-600">
                               MIN
                             </span>
                           )}
                         </div>
                         <div className="text-right">
-                          <span className="text-sm font-medium text-gray-900 tabular-nums">
-                            {formatCurrency(Math.round(subAllocation), state.currencySymbol)}
+                          <span className="font-medium text-gray-900 text-sm tabular-nums">
+                            {formatCurrency(
+                              Math.round(subAllocation),
+                              state.currencySymbol
+                            )}
                           </span>
-                          <span className="text-xs text-gray-400 ml-2">
+                          <span className="ml-2 text-gray-400 text-xs">
                             ({Math.round(subPercentage * 100)}%)
                           </span>
                         </div>
                       </div>
-                      
+
                       {/* Sub-service progress bar */}
-                      <div className="relative h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="relative h-1.5 overflow-hidden rounded-full bg-gray-100">
                         {/* Minimum marker */}
                         <div
-                          className="absolute top-0 bottom-0 w-px bg-amber-400 z-10"
-                          style={{ left: `${minSliderValue}%` }}
+                          className="absolute top-0 bottom-0 z-10 w-px bg-amber-400"
+                          style={{ left: `${subMinSliderValue}%` }}
                         />
                         <motion.div
-                          className={`h-full rounded-full ${
-                            isAtMinimum
-                              ? "bg-amber-300"
-                              : currentTier === 4
-                              ? "bg-teal-400"
-                              : "bg-emerald-300"
-                          }`}
-                          initial={{ width: 0 }}
                           animate={{ width: `${subPercentage * 100}%` }}
+                          className={`h-full rounded-full ${getSubProgressBarClass(isSubAtMinimum, currentTier)}`}
+                          initial={{ width: 0 }}
                           transition={{ duration: 0.2 }}
                         />
                       </div>
-                      
+
                       {/* Sub-service slider */}
                       <Slider
-                        value={[subSliderValue]}
-                        onValueChange={(values) => handleSubSliderChange(subService.id, values)}
-                        min={0}
-                        max={100}
-                        step={1}
                         className="py-1"
+                        max={100}
+                        min={0}
+                        onValueChange={(values) =>
+                          handleSubSliderChange(subService.id, values)
+                        }
+                        step={1}
+                        value={[subSliderValue]}
                       />
-                      
+
                       {/* Min label */}
                       <div className="text-[10px] text-gray-400">
-                        <span>Min: {Math.round(minSliderValue)}%</span>
+                        <span>Min: {Math.round(subMinSliderValue)}%</span>
                       </div>
                     </div>
                   );
                 })}
 
                 {/* Sub-allocation total check */}
-                <div className="pt-2 border-t border-dashed border-gray-200">
-                  <div className="flex items-center justify-between text-xs text-gray-500">
+                <div className="border-gray-200 border-t border-dashed pt-2">
+                  <div className="flex items-center justify-between text-gray-500 text-xs">
                     <span>Total allocated to sub-services:</span>
                     <span className="font-medium tabular-nums">
                       {formatCurrency(
                         Math.round(
-                          Object.values(state.subAllocations[service.id] || {}).reduce(
-                            (sum, val) => sum + val,
-                            0
-                          )
+                          Object.values(
+                            state.subAllocations[service.id] || {}
+                          ).reduce((sum, val) => sum + val, 0)
                         ),
                         state.currencySymbol
                       )}

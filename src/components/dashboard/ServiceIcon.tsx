@@ -1,15 +1,15 @@
+import type { LucideIcon } from "lucide-react";
 import {
-  HeartPulse,
-  TrainFront,
-  ShieldCheck,
+  Banknote,
   GraduationCap,
+  HeartPulse,
+  HelpCircle,
+  Landmark,
+  ShieldCheck,
+  TrainFront,
   TreePine,
   Users,
-  Landmark,
-  Banknote,
-  HelpCircle,
 } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
 
 const iconMap: Record<string, LucideIcon> = {
   HeartPulse,
@@ -22,13 +22,12 @@ const iconMap: Record<string, LucideIcon> = {
   Banknote,
 };
 
-interface ServiceIconProps {
+type ServiceIconProps = {
   iconName: string;
   className?: string;
-}
+};
 
 export function ServiceIcon({ iconName, className }: ServiceIconProps) {
   const Icon = iconMap[iconName] || HelpCircle;
   return <Icon className={className} />;
 }
-
