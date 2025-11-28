@@ -1,5 +1,6 @@
 import { useStore } from "@tanstack/react-store";
 import { AlertCircle, Landmark } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { formatCurrency } from "@/lib/utils";
 import {
   budgetStore,
@@ -9,6 +10,7 @@ import {
 } from "@/store/budget-store";
 
 export function WalletBar() {
+  const { t } = useTranslation();
   const state = useStore(budgetStore);
   const remaining = getRemainingFunds(state);
   const totalBudget = getTotalBudget();
@@ -62,7 +64,7 @@ export function WalletBar() {
             </div>
             <div>
               <p className="font-medium text-gray-400 text-xs">
-                National Budget
+                {t("wallet.nationalBudget")}
               </p>
               <p className="font-semibold text-gray-900 text-sm">
                 {fmt(totalBudget)}
@@ -72,15 +74,21 @@ export function WalletBar() {
 
           {/* Center - Progress info */}
           <div className="hidden items-center gap-4 text-gray-500 text-xs sm:flex">
-            <span>Allocated: {fmt(totalAllocated)}</span>
+            <span>
+              {t("wallet.allocated")}: {fmt(totalAllocated)}
+            </span>
             <span className="text-gray-300">•</span>
-            <span>{allocationPercent.toFixed(1)}% of budget</span>
+            <span>
+              {allocationPercent.toFixed(1)}% {t("wallet.ofBudget")}
+            </span>
           </div>
 
           {/* Right side - Remaining funds */}
           <div className="flex items-center gap-2">
             <div className="text-right">
-              <p className="font-medium text-gray-400 text-xs">Unallocated</p>
+              <p className="font-medium text-gray-400 text-xs">
+                {t("wallet.unallocated")}
+              </p>
               <p className={`font-bold text-lg tabular-nums ${getTextColor()}`}>
                 {fmt(Math.round(remaining))}
               </p>

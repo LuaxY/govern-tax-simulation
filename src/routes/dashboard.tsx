@@ -7,6 +7,7 @@ import {
   RotateCcw,
   Shuffle,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { ServiceCard } from "@/components/dashboard/ServiceCard";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,6 +31,7 @@ export const Route = createFileRoute("/dashboard")({
 
 function DashboardPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const state = useStore(budgetStore);
   const remaining = getRemainingFunds(state);
   const totalBudget = getTotalBudget();
@@ -111,10 +113,10 @@ function DashboardPage() {
           <div className="mx-auto flex max-w-2xl items-center justify-between gap-3">
             <div className="min-w-0">
               <h1 className="font-semibold text-gray-900 text-xl">
-                Allocate the National Budget
+                {t("dashboard.title")}
               </h1>
               <p className="mt-0.5 hidden text-gray-500 text-sm sm:block">
-                Use the sliders to fund each government service
+                {t("dashboard.subtitle")}
               </p>
             </div>
             <div className="flex shrink-0 items-center gap-2">
@@ -125,7 +127,9 @@ function DashboardPage() {
                 variant="outline"
               >
                 <Equal className="mr-1.5 h-4 w-4" />
-                <span className="hidden sm:inline">Distribute</span>
+                <span className="hidden sm:inline">
+                  {t("dashboard.distribute")}
+                </span>
               </Button>
 
               {/* Randomize Button */}
@@ -139,7 +143,7 @@ function DashboardPage() {
                     <Shuffle className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>Randomize allocation</TooltipContent>
+                <TooltipContent>{t("dashboard.randomize")}</TooltipContent>
               </Tooltip>
 
               {/* Reset Button */}
@@ -153,7 +157,7 @@ function DashboardPage() {
                     <RotateCcw className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>Reset all to minimum</TooltipContent>
+                <TooltipContent>{t("dashboard.reset")}</TooltipContent>
               </Tooltip>
 
               {/* Finalize Button */}
@@ -163,7 +167,9 @@ function DashboardPage() {
                 onClick={handleFinalize}
               >
                 <CheckCircle className="mr-1.5 h-4 w-4" />
-                <span className="hidden sm:inline">Finalize</span>
+                <span className="hidden sm:inline">
+                  {t("dashboard.finalize")}
+                </span>
                 <ArrowRight className="ml-1.5 h-4 w-4" />
               </Button>
             </div>
@@ -183,8 +189,10 @@ function DashboardPage() {
         {!canFinalize && remaining > 0 && (
           <div className="-translate-x-1/2 fixed bottom-6 left-1/2 rounded-lg border border-gray-200 bg-white px-5 py-3 shadow-lg">
             <p className="text-gray-600 text-sm">
-              <span className="font-medium text-amber-600">Tip:</span> Allocate
-              the entire budget to finalize your government's priorities
+              <span className="font-medium text-amber-600">
+                {t("dashboard.tip")}
+              </span>{" "}
+              {t("dashboard.tipMessage")}
             </p>
           </div>
         )}

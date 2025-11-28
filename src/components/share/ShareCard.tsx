@@ -1,4 +1,5 @@
 import type { RefObject } from "react";
+import { useTranslation } from "react-i18next";
 import type { PolicyTrait } from "@/data/services";
 import { SERVICES_DATA } from "@/data/services";
 import { formatCurrency } from "@/lib/utils";
@@ -34,6 +35,8 @@ export const ShareCard = ({
   state,
   ref,
 }: ShareCardProps & { ref?: RefObject<HTMLDivElement | null> }) => {
+  const { t } = useTranslation();
+
   // Get top 4 services by allocation
   const topServices = [...SERVICES_DATA]
     .map((service) => ({
@@ -45,6 +48,34 @@ export const ShareCard = ({
     .slice(0, 4);
 
   const maxAllocation = topServices[0]?.allocation || 1;
+
+  // Get translated archetype name and description
+  const getArchetypeName = (): string => {
+    if (!archetype) {
+      return "The Balanced";
+    }
+    if (archetype.isCompound) {
+      return t(`compoundArchetypes.${archetype.id}.name`, {
+        defaultValue: archetype.name,
+      });
+    }
+    return t(`archetypes.${archetype.primaryId}.name`);
+  };
+
+  const getArchetypeDescription = (): string => {
+    if (!archetype) {
+      return "You seek equilibrium across all sectors.";
+    }
+    if (archetype.isCompound) {
+      return t(`compoundArchetypes.${archetype.id}.description`, {
+        defaultValue: archetype.description,
+      });
+    }
+    return t(`archetypes.${archetype.primaryId}.description`);
+  };
+
+  const archetypeName = getArchetypeName();
+  const archetypeDescription = getArchetypeDescription();
 
   return (
     <div
@@ -73,7 +104,7 @@ export const ShareCard = ({
               className="font-bold text-[10px] uppercase tracking-wider"
               style={{ color: "rgba(255, 255, 255, 0.6)" }}
             >
-              Government Identity
+              {t("result.identityLabel")}
             </span>
             {archetype?.isCompound && (
               <span
@@ -83,7 +114,7 @@ export const ShareCard = ({
                   color: "#e9d5ff",
                 }}
               >
-                ✨ Hybrid
+                ✨ {t("result.hybrid")}
               </span>
             )}
             {governanceStyle && (
@@ -94,19 +125,19 @@ export const ShareCard = ({
                   color: "#bfdbfe",
                 }}
               >
-                {governanceStyle.emoji} {governanceStyle.name}
+                {governanceStyle.emoji}{" "}
+                {t(`governanceStyles.${governanceStyle.name.toLowerCase()}`)}
               </span>
             )}
           </div>
           <h2 className="mb-1 font-bold text-2xl" style={{ color: "#ffffff" }}>
-            {archetype?.name || "The Balanced"}
+            {archetypeName}
           </h2>
           <p
             className="text-sm leading-snug"
             style={{ color: "rgba(255, 255, 255, 0.7)" }}
           >
-            {archetype?.description ||
-              "You seek equilibrium across all sectors."}
+            {archetypeDescription}
           </p>
         </div>
       </div>
@@ -124,7 +155,7 @@ export const ShareCard = ({
               }}
             >
               <span>{trait.emoji}</span>
-              <span>{trait.name}</span>
+              <span>{t(`policyTraits.${trait.id}`)}</span>
             </span>
           ))}
         </div>
@@ -139,7 +170,7 @@ export const ShareCard = ({
           className="mb-3 font-semibold text-xs uppercase tracking-wider"
           style={{ color: "rgba(255, 255, 255, 0.5)" }}
         >
-          Top Priorities
+          {t("result.budgetBreakdown")}
         </h3>
         <div className="space-y-2.5">
           {topServices.map(({ service, allocation, tier }) => (
@@ -148,7 +179,7 @@ export const ShareCard = ({
                 className="w-24 truncate font-medium text-sm"
                 style={{ color: "rgba(255, 255, 255, 0.9)" }}
               >
-                {service.name.split(" ")[0]}
+                {t(`services.${service.id}.name`).split(" ")[0]}
               </span>
               <div
                 className="h-2 flex-1 overflow-hidden rounded-full"
@@ -195,17 +226,11 @@ export const ShareCard = ({
             className="font-semibold text-sm"
             style={{ color: "rgba(255, 255, 255, 0.9)" }}
           >
-            Govern
-          </span>
-          <span
-            className="text-xs"
-            style={{ color: "rgba(255, 255, 255, 0.5)" }}
-          >
-            Budget Simulator
+            {t("home.title")}
           </span>
         </div>
         <span className="text-xs" style={{ color: "rgba(255, 255, 255, 0.4)" }}>
-          Try it yourself →
+          →
         </span>
       </div>
     </div>

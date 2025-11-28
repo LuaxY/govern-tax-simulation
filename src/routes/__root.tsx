@@ -1,6 +1,7 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { useStore } from "@tanstack/react-store";
 import { Toaster } from "sonner";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { WalletBar } from "@/components/layout/WalletBar";
 import { budgetStore } from "@/store/budget-store";
 
@@ -14,6 +15,11 @@ function RootComponent() {
 
   return (
     <div className="min-h-screen bg-[#fafafa]">
+      {/* Language Switcher - fixed at top right */}
+      <div className="fixed top-4 right-4 z-50">
+        <LanguageSwitcher />
+      </div>
+
       {/* Wallet Bar - sticky at top when active */}
       {showWallet && <WalletBar />}
 

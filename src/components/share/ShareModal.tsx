@@ -1,6 +1,7 @@
 import { toPng } from "html-to-image";
 import { Check, Copy, Download, Loader2 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -45,6 +46,7 @@ export function ShareModal({
   governanceStyle,
   state,
 }: ShareModalProps) {
+  const { t } = useTranslation();
   const cardRef = useRef<HTMLDivElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -133,13 +135,32 @@ export function ShareModal({
     // Build the share text
     const traitEmojis = policyTraits
       .slice(0, 3)
-      .map((t) => t.emoji)
+      .map((trait) => trait.emoji)
       .join("");
-    const hybridText = archetype?.isCompound ? " (Hybrid)" : "";
+
+    // Get translated archetype name
+    const getArchetypeName = (): string => {
+      if (!archetype) {
+        return "The Balanced";
+      }
+      if (archetype.isCompound) {
+        return t(`compoundArchetypes.${archetype.id}.name`, {
+          defaultValue: archetype.name,
+        });
+      }
+      return t(`archetypes.${archetype.primaryId}.name`);
+    };
+    const archetypeName = getArchetypeName();
+
+    const hybridText = archetype?.isCompound ? ` (${t("result.hybrid")})` : "";
     const traitsText = traitEmojis ? ` ${traitEmojis}` : "";
     const url = encodeURIComponent(window.location.origin);
     const text = encodeURIComponent(
-      `My government is ${archetype?.name || "The Balanced"}${hybridText}!${traitsText}\n\nI allocated a national budget on Govern. Try it yourself!`
+      t("share.shareText", {
+        archetype: archetypeName,
+        hybrid: hybridText,
+        traits: traitsText,
+      })
     );
 
     // Open X compose window
@@ -151,10 +172,10 @@ export function ShareModal({
       <DialogContent className="overflow-hidden bg-white p-0 sm:max-w-[680px]">
         <DialogHeader className="p-6 pb-0">
           <DialogTitle className="font-semibold text-xl">
-            Share Your Results
+            {t("share.title")}
           </DialogTitle>
           <DialogDescription className="text-gray-500">
-            Share your government identity with the world
+            {t("share.subtitle")}
           </DialogDescription>
         </DialogHeader>
 
@@ -176,7 +197,7 @@ export function ShareModal({
         <div className="p-6 pt-4">
           <div className="overflow-hidden rounded-xl border border-gray-200 bg-gray-100">
             {isGenerating || !imageUrl ? (
-              <div className="flex aspect-[3/2] w-full items-center justify-center">
+              <div className="flex aspect-3/2 w-full items-center justify-center">
                 <Loader2 className="h-8 w-8 animate-spin text-teal-600" />
               </div>
             ) : (
@@ -202,12 +223,12 @@ export function ShareModal({
             {copied ? (
               <>
                 <Check className="mr-2 h-4 w-4 text-teal-600" />
-                Copied!
+                {t("share.copied")}
               </>
             ) : (
               <>
                 <Copy className="mr-2 h-4 w-4" />
-                Copy Image
+                {t("share.copyImage")}
               </>
             )}
           </Button>
@@ -218,7 +239,7 @@ export function ShareModal({
             variant="outline"
           >
             <Download className="mr-2 h-4 w-4" />
-            Download
+            {t("share.download")}
           </Button>
           <Button
             className="flex-1 cursor-pointer bg-black text-white hover:bg-gray-900"
@@ -233,7 +254,7 @@ export function ShareModal({
             >
               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
             </svg>
-            Share on X
+            {t("share.shareOnX")}
           </Button>
         </div>
       </DialogContent>

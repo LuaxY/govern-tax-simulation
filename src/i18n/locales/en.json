@@ -1,0 +1,522 @@
+{
+  "common": {
+    "min": "Min",
+    "max": "Max",
+    "tier": "Tier",
+    "none": "None",
+    "requires": "Requires",
+    "next": "Next",
+    "atMinimum": "AT MINIMUM",
+    "allAboveMinimum": "All above minimum",
+    "justViable": "Just viable",
+    "noTierUnlocked": "No tier unlocked",
+    "hide": "Hide",
+    "show": "Show",
+    "breakdown": "breakdown",
+    "subServices": "sub-services",
+    "totalAllocated": "Total allocated to sub-services"
+  },
+  "home": {
+    "title": "Govern",
+    "subtitle": "Allocate your nation's budget and discover the trade-offs of governance.",
+    "budgetLabel": "National Annual Budget",
+    "services": "8 Services",
+    "servicesDesc": "Each with mandatory minimum funding",
+    "tradeoffs": "Trade-offs Required",
+    "tradeoffsDesc": "Can't fund everything fully",
+    "infoText": "All services start at minimum viable funding. You decide where to invest more.",
+    "startButton": "Begin Allocation",
+    "footer": "Every choice has consequences • Trade-offs are inevitable"
+  },
+  "dashboard": {
+    "title": "Allocate the National Budget",
+    "subtitle": "Use the sliders to fund each government service",
+    "distribute": "Distribute",
+    "randomize": "Randomize allocation",
+    "reset": "Reset all to minimum",
+    "finalize": "Finalize",
+    "tip": "Tip:",
+    "tipMessage": "Allocate the entire budget to finalize your government's priorities"
+  },
+  "wallet": {
+    "nationalBudget": "National Budget",
+    "allocated": "Allocated",
+    "ofBudget": "of budget",
+    "unallocated": "Unallocated"
+  },
+  "result": {
+    "title": "Budget Finalized",
+    "subtitle": "Here's how your nation would look based on your government's priorities",
+    "identityLabel": "Your Government's Identity",
+    "hybrid": "Hybrid",
+    "utopiaAchieved": "Utopia Achieved",
+    "tier4Services": "Tier 4 Services",
+    "atMinimum": "At Minimum",
+    "budgetBreakdown": "Budget Breakdown",
+    "edit": "Edit",
+    "restart": "Restart",
+    "share": "Share"
+  },
+  "share": {
+    "title": "Share Your Results",
+    "subtitle": "Share your government identity with the world",
+    "copyImage": "Copy Image",
+    "copied": "Copied!",
+    "download": "Download",
+    "shareOnX": "Share on X",
+    "shareText": "My government is {{archetype}}{{hybrid}}!{{traits}}\n\nI allocated a national budget on Govern. Try it yourself!"
+  },
+  "toast": {
+    "unlocked": "Unlocked: {{perk}}",
+    "perkLost": "Perk Lost: {{perk}}",
+    "fundingDropped": "Funding dropped below threshold"
+  },
+  "status": {
+    "bare": "BARE BONES",
+    "functional": "FUNCTIONAL",
+    "standard": "STANDARD",
+    "quality": "QUALITY",
+    "optimal": "OPTIMAL"
+  },
+  "services": {
+    "debt": {
+      "name": "Debt Servicing",
+      "description": "Interest payments, bond obligations, and national debt management.",
+      "tiers": {
+        "1": {
+          "name": "Minimum Payments",
+          "perk": "Credit Maintained",
+          "benefit": "Interest payments covered. Credit rating stable. No default risk."
+        },
+        "2": {
+          "name": "Principal Reduction",
+          "perk": "Debt Declining",
+          "benefit": "Actively paying down principal. Debt-to-GDP ratio improving."
+        },
+        "3": {
+          "name": "Fiscal Discipline",
+          "perk": "Budget Surplus",
+          "benefit": "Running surplus budgets. Building sovereign wealth fund."
+        },
+        "4": {
+          "name": "AAA Rated",
+          "perk": "Fiscal Credibility",
+          "benefit": "Highest credit rating. Lowest borrowing costs globally. Economic safe haven."
+        }
+      },
+      "subServices": {
+        "interest": "Interest Payments",
+        "bonds": "Bond Obligations",
+        "management": "Debt Management"
+      }
+    },
+    "health": {
+      "name": "Public Health & Well-being",
+      "description": "Hospitals, Pharmaceuticals, Mental Health, and Pandemic Control.",
+      "tiers": {
+        "1": {
+          "name": "The Safety Net",
+          "perk": "Emergency Access",
+          "benefit": "No citizen dies from lack of urgent care. Ambulances are functional."
+        },
+        "2": {
+          "name": "Standard Care",
+          "perk": "Zero Wait Times",
+          "benefit": "Elective surgeries in weeks, not months. Family doctors available same-day."
+        },
+        "3": {
+          "name": "Total Coverage",
+          "perk": "Dental & Vision Included",
+          "benefit": "Teeth and eyes are fully covered. Mental health therapy is free."
+        },
+        "4": {
+          "name": "Universal Prevention",
+          "perk": "World-Class Outcomes",
+          "benefit": "Free annual checkups for all. Comprehensive cancer screening. Top 5 global health outcomes."
+        }
+      },
+      "subServices": {
+        "hospitals": "Hospitals",
+        "pharmaceuticals": "Pharmaceuticals",
+        "mental-health": "Mental Health",
+        "pandemic": "Pandemic Control"
+      }
+    },
+    "infrastructure": {
+      "name": "Infrastructure & Transport",
+      "description": "Roads, Rail, Water Systems, Internet, and Waste Management.",
+      "tiers": {
+        "1": {
+          "name": "Basic Connectivity",
+          "perk": "Pothole Free",
+          "benefit": "Major highways paved annually. Potable water in all taps."
+        },
+        "2": {
+          "name": "Digital Nation",
+          "perk": "Fiber Everywhere",
+          "benefit": "High-speed fiber internet for every home, including rural farms."
+        },
+        "3": {
+          "name": "High-Speed Network",
+          "perk": "Bullet Trains",
+          "benefit": "Connect major cities in under 2 hours. Domestic flights obsolete."
+        },
+        "4": {
+          "name": "Mobility as a Right",
+          "perk": "Zero-Fare Transport",
+          "benefit": "All subways, buses, and trains are 100% free for everyone."
+        }
+      },
+      "subServices": {
+        "roads": "Roads",
+        "rail": "Rail",
+        "water": "Water Systems",
+        "internet": "Internet",
+        "waste": "Waste Management"
+      }
+    },
+    "defense": {
+      "name": "Safety & Defense",
+      "description": "Military, Police, Fire Services, Cyber-Security, and Borders.",
+      "tiers": {
+        "1": {
+          "name": "Sovereignty",
+          "perk": "Border Integrity",
+          "benefit": "Borders are monitored. Basic police response times are stable."
+        },
+        "2": {
+          "name": "Rapid Response",
+          "perk": "Disaster Shield",
+          "benefit": "Rescue teams deploy to any flood or fire zone within 4 hours."
+        },
+        "3": {
+          "name": "Cyber Resilience",
+          "perk": "Protected Infrastructure",
+          "benefit": "Critical systems hardened against attacks. Rapid incident response teams. Public cybersecurity awareness."
+        },
+        "4": {
+          "name": "Regional Security Leader",
+          "perk": "Strategic Stability",
+          "benefit": "Advanced defense capabilities. Active peacekeeping contributions. Strong mutual defense alliances."
+        }
+      },
+      "subServices": {
+        "military": "Military",
+        "police": "Police",
+        "fire": "Fire Services",
+        "cyber": "Cyber-Security",
+        "borders": "Border Security"
+      }
+    },
+    "education": {
+      "name": "Education & Innovation",
+      "description": "Schools, Universities, R&D Grants, Space Agencies, and Arts.",
+      "tiers": {
+        "1": {
+          "name": "Literacy",
+          "perk": "School for All",
+          "benefit": "Every child guaranteed a desk, books, and a teacher up to age 18."
+        },
+        "2": {
+          "name": "Skilled Workforce",
+          "perk": "Trade Mastery",
+          "benefit": "Free vocational training for plumbers, coders, and electricians."
+        },
+        "3": {
+          "name": "Knowledge Economy",
+          "perk": "Tuition-Free University",
+          "benefit": "Higher education is free. Zero student debt society."
+        },
+        "4": {
+          "name": "Innovation Nation",
+          "perk": "Global R&D Hub",
+          "benefit": "Top 10 global university rankings. R&D spending at 3%+ GDP. Thriving startup ecosystem."
+        }
+      },
+      "subServices": {
+        "schools": "Schools",
+        "universities": "Universities",
+        "research": "R&D Grants",
+        "space": "Space Agencies",
+        "arts": "Arts & Culture"
+      }
+    },
+    "environment": {
+      "name": "Environment & Resources",
+      "description": "Parks, Pollution Control, Green Energy, and Agriculture.",
+      "tiers": {
+        "1": {
+          "name": "Clean Up",
+          "perk": "Breathable Air",
+          "benefit": "Smog eliminated from cities. Industrial waste sites cleaned."
+        },
+        "2": {
+          "name": "Preservation",
+          "perk": "Rewilding",
+          "benefit": "20% of national land designated as protected nature reserves."
+        },
+        "3": {
+          "name": "The Transition",
+          "perk": "100% Renewables",
+          "benefit": "Grid runs on Wind/Solar/Nuclear only. Fossil fuels banned."
+        },
+        "4": {
+          "name": "Carbon Neutral",
+          "perk": "Net-Zero Achieved",
+          "benefit": "Net-zero emissions reached. Climate adaptation infrastructure complete. Global environmental leadership."
+        }
+      },
+      "subServices": {
+        "parks": "Parks & Conservation",
+        "pollution": "Pollution Control",
+        "energy": "Green Energy",
+        "agriculture": "Agriculture"
+      }
+    },
+    "social": {
+      "name": "Social Protection",
+      "description": "Pensions, Unemployment, Housing, and Childcare.",
+      "tiers": {
+        "1": {
+          "name": "Dignity",
+          "perk": "Food Security",
+          "benefit": "Food banks and emergency shelters available for the desperate."
+        },
+        "2": {
+          "name": "Safety Net",
+          "perk": "Living Wages",
+          "benefit": "Unemployment benefits cover 80% of lost salary for 6 months."
+        },
+        "3": {
+          "name": "Family First",
+          "perk": "Free Childcare",
+          "benefit": "State-funded daycare and 1 year paid parental leave."
+        },
+        "4": {
+          "name": "Post-Scarcity",
+          "perk": "Universal Basic Income",
+          "benefit": "Every citizen receives a monthly stipend to cover basic needs."
+        }
+      },
+      "subServices": {
+        "pensions": "Pensions",
+        "unemployment": "Unemployment",
+        "housing": "Housing",
+        "childcare": "Childcare"
+      }
+    },
+    "governance": {
+      "name": "Governance & Diplomacy",
+      "description": "Administration, Tax Collection, Foreign Aid, and Justice.",
+      "tiers": {
+        "1": {
+          "name": "Functionality",
+          "perk": "Tax & Census",
+          "benefit": "The government can collect funds and count votes accurately."
+        },
+        "2": {
+          "name": "Efficiency",
+          "perk": "Digital Bureaucracy",
+          "benefit": "No paper forms. All permits and licenses handled via app instantly."
+        },
+        "3": {
+          "name": "Global Aid",
+          "perk": "Soft Power",
+          "benefit": "Massive foreign aid budget increases global influence and trade."
+        },
+        "4": {
+          "name": "Transparent Democracy",
+          "perk": "Highest Trust",
+          "benefit": "Open data government. Independent anti-corruption courts. Top global trust and transparency rankings."
+        }
+      },
+      "subServices": {
+        "admin": "Administration",
+        "tax": "Tax Collection",
+        "foreign-aid": "Foreign Aid",
+        "justice": "Justice System"
+      }
+    }
+  },
+  "archetypes": {
+    "debt": {
+      "name": "The Fiscal Hawk",
+      "description": "You prioritize financial stability and debt reduction above all."
+    },
+    "health": {
+      "name": "The Humanitarian",
+      "description": "You prioritize the health and wellbeing of all citizens."
+    },
+    "infrastructure": {
+      "name": "The Builder",
+      "description": "You believe in connecting and empowering through infrastructure."
+    },
+    "defense": {
+      "name": "The Guardian",
+      "description": "Security and protection are your primary concerns."
+    },
+    "education": {
+      "name": "The Visionary",
+      "description": "You invest in the future through knowledge and innovation."
+    },
+    "environment": {
+      "name": "The Naturalist",
+      "description": "You champion the planet and sustainable living."
+    },
+    "social": {
+      "name": "The Caretaker",
+      "description": "You ensure no citizen is left behind in society."
+    },
+    "governance": {
+      "name": "The Diplomat",
+      "description": "You value efficient governance and global cooperation."
+    }
+  },
+  "compoundArchetypes": {
+    "education-health": {
+      "name": "The Social Progressive",
+      "description": "A government that invests in people through health and knowledge."
+    },
+    "health-social": {
+      "name": "The Welfare Champion",
+      "description": "A compassionate state focused on citizen wellbeing and social safety."
+    },
+    "environment-health": {
+      "name": "The Holistic Healer",
+      "description": "You believe healthy people need a healthy planet."
+    },
+    "defense-health": {
+      "name": "The Protector",
+      "description": "Security and health form the foundation of your nation."
+    },
+    "education-environment": {
+      "name": "The Future Planner",
+      "description": "Investing in minds and the planet for generations to come."
+    },
+    "education-infrastructure": {
+      "name": "The Modernizer",
+      "description": "Building smart infrastructure and educated citizens."
+    },
+    "defense-education": {
+      "name": "The Strategic Thinker",
+      "description": "Knowledge and security are your pillars of strength."
+    },
+    "education-social": {
+      "name": "The Equalizer",
+      "description": "Education and social support break the cycle of inequality."
+    },
+    "defense-infrastructure": {
+      "name": "The Strategic Builder",
+      "description": "Strong infrastructure and strong defense make a strong nation."
+    },
+    "environment-infrastructure": {
+      "name": "The Green Engineer",
+      "description": "Building sustainable infrastructure for a cleaner future."
+    },
+    "infrastructure-social": {
+      "name": "The Public Servant",
+      "description": "Infrastructure and social services that lift all citizens."
+    },
+    "defense-environment": {
+      "name": "The Resource Guardian",
+      "description": "Protecting the nation and its natural resources."
+    },
+    "defense-social": {
+      "name": "The Sentinel State",
+      "description": "A secure nation with a strong social safety net."
+    },
+    "defense-governance": {
+      "name": "The Order Keeper",
+      "description": "Strong institutions and security maintain stability."
+    },
+    "environment-social": {
+      "name": "The Green Socialist",
+      "description": "Environmental justice and social equality go hand in hand."
+    },
+    "governance-social": {
+      "name": "The Administrator",
+      "description": "Efficient governance delivering social programs to all."
+    },
+    "governance-health": {
+      "name": "The Public Health Official",
+      "description": "Well-organized systems delivering healthcare to all."
+    },
+    "education-governance": {
+      "name": "The Enlightened Bureaucrat",
+      "description": "Smart governance powered by educated citizens."
+    },
+    "governance-infrastructure": {
+      "name": "The Systems Architect",
+      "description": "Building efficient systems both physical and administrative."
+    },
+    "environment-governance": {
+      "name": "The Regulator",
+      "description": "Strong environmental policy backed by capable institutions."
+    },
+    "debt-governance": {
+      "name": "The Fiscal Conservative",
+      "description": "Prudent spending and efficient government reduce national debt."
+    },
+    "debt-infrastructure": {
+      "name": "The Pragmatic Investor",
+      "description": "Strategic infrastructure spending while managing debt responsibly."
+    },
+    "debt-health": {
+      "name": "The Balanced Steward",
+      "description": "Maintaining fiscal health while caring for citizen health."
+    },
+    "debt-education": {
+      "name": "The Long-Term Planner",
+      "description": "Investing in education while ensuring fiscal sustainability."
+    },
+    "debt-defense": {
+      "name": "The Fortress Builder",
+      "description": "Financial security and national security are equally vital."
+    },
+    "debt-environment": {
+      "name": "The Sustainable Economist",
+      "description": "Green investments that also make fiscal sense."
+    },
+    "debt-social": {
+      "name": "The Responsible Caretaker",
+      "description": "Social programs funded sustainably for the long term."
+    }
+  },
+  "policyTraits": {
+    "mental-health-champion": "Mental Health Champion",
+    "pandemic-prepared": "Pandemic Prepared",
+    "pharma-focus": "Pharma Focused",
+    "hospital-builder": "Hospital Builder",
+    "space-enthusiast": "Space Enthusiast",
+    "arts-patron": "Arts Patron",
+    "research-driven": "Research Driven",
+    "university-champion": "University Champion",
+    "rail-enthusiast": "Rail Enthusiast",
+    "digital-first": "Digital First",
+    "road-warrior": "Road Warrior",
+    "water-guardian": "Water Guardian",
+    "cyber-defender": "Cyber Defender",
+    "military-strong": "Military Strong",
+    "firefighter-hero": "First Responder Focus",
+    "border-hawk": "Border Hawk",
+    "climate-forward": "Climate Forward",
+    "park-ranger": "Park Ranger",
+    "pollution-fighter": "Pollution Fighter",
+    "farm-supporter": "Farm Supporter",
+    "housing-advocate": "Housing Advocate",
+    "childcare-champion": "Childcare Champion",
+    "pension-protector": "Pension Protector",
+    "job-security": "Job Security Advocate",
+    "global-aid-leader": "Global Aid Leader",
+    "justice-seeker": "Justice Seeker",
+    "tax-reformer": "Tax Reformer",
+    "efficient-admin": "Efficient Administrator",
+    "bond-manager": "Bond Manager",
+    "debt-hawk": "Debt Hawk"
+  },
+  "governanceStyles": {
+    "balanced": "Balanced",
+    "austerity": "Austerity",
+    "expansive": "Expansive"
+  }
+}

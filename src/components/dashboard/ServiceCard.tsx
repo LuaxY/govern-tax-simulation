@@ -2,6 +2,7 @@ import { useStore } from "@tanstack/react-store";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Lock, MinusCircle, Sparkles, Unlock } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import {
@@ -15,7 +16,6 @@ import {
   budgetStore,
   getServiceAllocationPercentage,
   getServiceTierLevel,
-  getStatusDescription,
   getSubAllocationPercentage,
   isServiceAtMinimum,
   updateAllocation,
@@ -90,12 +90,30 @@ function getSubProgressBarClass(isAtMin: boolean, currentTier: number): string {
 }
 
 export function ServiceCard({ service }: ServiceCardProps) {
+  const { t } = useTranslation();
   const state = useStore(budgetStore);
   const allocation = state.allocations[service.id] || service.minCost;
   const percentage = getServiceAllocationPercentage(state, service);
   const currentTier = getServiceTierLevel(state, service);
   const atMinimum = isServiceAtMinimum(state, service);
-  const statusText = getStatusDescription(percentage);
+
+  // Get status text based on percentage
+  const getStatusText = (pct: number): string => {
+    if (pct <= 0.25) {
+      return t("status.bare");
+    }
+    if (pct <= 0.5) {
+      return t("status.functional");
+    }
+    if (pct <= 0.75) {
+      return t("status.standard");
+    }
+    if (pct < 1) {
+      return t("status.quality");
+    }
+    return t("status.optimal");
+  };
+  const statusText = getStatusText(percentage);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const previousTier = useRef(currentTier);
@@ -139,30 +157,39 @@ export function ServiceCard({ service }: ServiceCardProps) {
   // Detect tier changes for toasts only
   useEffect(() => {
     if (currentTier > previousTier.current) {
-      const tier = service.tiers.find((t) => t.level === currentTier);
+      const tier = service.tiers.find(
+        (tierItem) => tierItem.level === currentTier
+      );
       if (tier) {
-        toast.success(`Unlocked: ${tier.perk}`, {
-          description: tier.benefit,
+        const tierPerk = t(`services.${service.id}.tiers.${tier.level}.perk`);
+        const tierBenefit = t(
+          `services.${service.id}.tiers.${tier.level}.benefit`
+        );
+        toast.success(t("toast.unlocked", { perk: tierPerk }), {
+          description: tierBenefit,
           icon: <Sparkles className="h-4 w-4 text-amber-500" />,
         });
       }
     } else if (currentTier < previousTier.current && previousTier.current > 0) {
       const lostTier = service.tiers.find(
-        (t) => t.level === previousTier.current
+        (tierItem) => tierItem.level === previousTier.current
       );
       if (lostTier) {
-        toast.error(`Perk Lost: ${lostTier.perk}`, {
-          description: "Funding dropped below threshold",
+        const lostPerk = t(
+          `services.${service.id}.tiers.${lostTier.level}.perk`
+        );
+        toast.error(t("toast.perkLost", { perk: lostPerk }), {
+          description: t("toast.fundingDropped"),
           icon: <MinusCircle className="h-4 w-4 text-red-500" />,
         });
       }
     }
     previousTier.current = currentTier;
-  }, [currentTier, service.tiers]);
+  }, [currentTier, service.tiers, service.id, t]);
 
   // Get current tier info
-  const activeTier = service.tiers.find((t) => t.level === currentTier);
-  const nextTier = service.tiers.find((t) => t.level === currentTier + 1);
+  const activeTier = service.tiers.find((tier) => tier.level === currentTier);
+  const nextTier = service.tiers.find((tier) => tier.level === currentTier + 1);
 
   return (
     <Card
@@ -181,10 +208,10 @@ export function ServiceCard({ service }: ServiceCardProps) {
           </div>
           <div className="min-w-0 flex-1">
             <h3 className="mb-0.5 font-semibold text-gray-900">
-              {service.name}
+              {t(`services.${service.id}.name`)}
             </h3>
             <p className="line-clamp-1 text-gray-500 text-sm">
-              {service.description}
+              {t(`services.${service.id}.description`)}
             </p>
           </div>
           <div className="shrink-0 text-right">
@@ -194,7 +221,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
             <p
               className={`font-medium text-xs ${getStatusTextClass(atMinimum, currentTier)}`}
             >
-              {atMinimum ? "AT MINIMUM" : statusText}
+              {atMinimum ? t("common.atMinimum") : statusText}
             </p>
           </div>
         </div>
@@ -261,16 +288,19 @@ export function ServiceCard({ service }: ServiceCardProps) {
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="font-medium text-gray-900 text-sm">
-                        Tier {tier.level}: {tier.name}
+                        {t("common.tier")} {tier.level}:{" "}
+                        {t(`services.${service.id}.tiers.${tier.level}.name`)}
                       </p>
                       <p className="mt-0.5 font-medium text-teal-600 text-xs">
-                        {tier.perk}
+                        {t(`services.${service.id}.tiers.${tier.level}.perk`)}
                       </p>
                       <p className="mt-1.5 text-gray-500 text-xs leading-relaxed">
-                        {tier.benefit}
+                        {t(
+                          `services.${service.id}.tiers.${tier.level}.benefit`
+                        )}
                       </p>
                       <p className="mt-2 border-gray-100 border-t pt-2 text-gray-400 text-xs">
-                        Requires:{" "}
+                        {t("common.requires")}:{" "}
                         {formatCurrency(
                           Math.round(tier.threshold * service.maxCost),
                           state.currencySymbol
@@ -297,10 +327,12 @@ export function ServiceCard({ service }: ServiceCardProps) {
         {/* Min/Max labels */}
         <div className="mb-3 flex justify-between text-gray-400 text-xs">
           <span>
-            Min: {formatCurrency(service.minCost, state.currencySymbol)}
+            {t("common.min")}:{" "}
+            {formatCurrency(service.minCost, state.currencySymbol)}
           </span>
           <span>
-            Max: {formatCurrency(service.maxCost, state.currencySymbol)}
+            {t("common.max")}:{" "}
+            {formatCurrency(service.maxCost, state.currencySymbol)}
           </span>
         </div>
 
@@ -308,19 +340,24 @@ export function ServiceCard({ service }: ServiceCardProps) {
         <div className="flex items-center justify-between text-sm">
           {activeTier ? (
             <div>
-              <span className="text-gray-500">Tier {activeTier.level}:</span>{" "}
+              <span className="text-gray-500">
+                {t("common.tier")} {activeTier.level}:
+              </span>{" "}
               <span className="font-medium text-gray-700">
-                {activeTier.perk}
+                {t(`services.${service.id}.tiers.${activeTier.level}.perk`)}
               </span>
             </div>
           ) : (
-            <div className="text-gray-400">No tier unlocked</div>
+            <div className="text-gray-400">{t("common.noTierUnlocked")}</div>
           )}
 
           {nextTier && (
             <div className="flex items-center gap-1.5 text-gray-400">
               <Lock className="h-3 w-3" />
-              <span className="text-xs">Next: {nextTier.perk}</span>
+              <span className="text-xs">
+                {t("common.next")}:{" "}
+                {t(`services.${service.id}.tiers.${nextTier.level}.perk`)}
+              </span>
             </div>
           )}
         </div>
@@ -333,8 +370,9 @@ export function ServiceCard({ service }: ServiceCardProps) {
             type="button"
           >
             <span>
-              {isExpanded ? "Hide" : "Show"} breakdown (
-              {service.subServices?.length} sub-services)
+              {isExpanded ? t("common.hide") : t("common.show")}{" "}
+              {t("common.breakdown")} ({service.subServices?.length}{" "}
+              {t("common.subServices")})
             </span>
             <motion.div
               animate={{ rotate: isExpanded ? 180 : 0 }}
@@ -374,11 +412,13 @@ export function ServiceCard({ service }: ServiceCardProps) {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <span className="font-medium text-gray-700 text-sm">
-                            {subService.name}
+                            {t(
+                              `services.${service.id}.subServices.${subService.id}`
+                            )}
                           </span>
                           {isSubAtMinimum && (
                             <span className="rounded bg-amber-50 px-1.5 py-0.5 font-medium text-[10px] text-amber-600">
-                              MIN
+                              {t("common.min").toUpperCase()}
                             </span>
                           )}
                         </div>
@@ -424,7 +464,9 @@ export function ServiceCard({ service }: ServiceCardProps) {
 
                       {/* Min label */}
                       <div className="text-[10px] text-gray-400">
-                        <span>Min: {Math.round(subMinSliderValue)}%</span>
+                        <span>
+                          {t("common.min")}: {Math.round(subMinSliderValue)}%
+                        </span>
                       </div>
                     </div>
                   );
@@ -433,7 +475,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
                 {/* Sub-allocation total check */}
                 <div className="border-gray-200 border-t border-dashed pt-2">
                   <div className="flex items-center justify-between text-gray-500 text-xs">
-                    <span>Total allocated to sub-services:</span>
+                    <span>{t("common.totalAllocated")}:</span>
                     <span className="font-medium tabular-nums">
                       {formatCurrency(
                         Math.round(

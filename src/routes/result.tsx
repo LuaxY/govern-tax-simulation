@@ -12,6 +12,7 @@ import {
   Trophy,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ServiceIcon } from "@/components/dashboard/ServiceIcon";
 import { ShareModal } from "@/components/share/ShareModal";
 import { Button } from "@/components/ui/button";
@@ -66,6 +67,7 @@ export const Route = createFileRoute("/result")({
 
 function ResultPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const state = useStore(budgetStore);
   const archetype = getPoliticalArchetype(state);
   const policyTraits = getPolicyTraits(state);
@@ -125,12 +127,9 @@ function ResultPage() {
             <CheckCircle className="h-6 w-6 text-teal-700" />
           </div>
           <h1 className="mb-2 font-semibold font-serif text-2xl text-gray-900">
-            Budget Finalized
+            {t("result.title")}
           </h1>
-          <p className="text-gray-500">
-            Here's how your nation would look based on your government's
-            priorities
-          </p>
+          <p className="text-gray-500">{t("result.subtitle")}</p>
         </div>
 
         {/* Archetype Card */}
@@ -148,25 +147,36 @@ function ResultPage() {
               <div className="min-w-0 flex-1">
                 <div className="mb-1 flex items-center gap-2">
                   <p className="font-semibold text-teal-700 text-xs uppercase tracking-wider">
-                    Your Government's Identity
+                    {t("result.identityLabel")}
                   </p>
                   {archetype.isCompound && (
                     <span className="flex items-center gap-1 rounded-full bg-purple-50 px-1.5 py-0.5 font-medium text-[10px] text-purple-600">
                       <Sparkles className="h-3 w-3" />
-                      Hybrid
+                      {t("result.hybrid")}
                     </span>
                   )}
                   {governanceStyle && (
                     <span className="rounded-full bg-blue-50 px-1.5 py-0.5 font-medium text-[10px] text-blue-600">
-                      {governanceStyle.emoji} {governanceStyle.name}
+                      {governanceStyle.emoji}{" "}
+                      {t(
+                        `governanceStyles.${governanceStyle.name.toLowerCase()}`
+                      )}
                     </span>
                   )}
                 </div>
                 <h2 className="mb-1 font-semibold text-gray-900 text-xl">
-                  {archetype.name}
+                  {archetype.isCompound
+                    ? t(`compoundArchetypes.${archetype.id}.name`, {
+                        defaultValue: archetype.name,
+                      })
+                    : t(`archetypes.${archetype.primaryId}.name`)}
                 </h2>
                 <p className="mb-3 text-gray-500 text-sm">
-                  {archetype.description}
+                  {archetype.isCompound
+                    ? t(`compoundArchetypes.${archetype.id}.description`, {
+                        defaultValue: archetype.description,
+                      })
+                    : t(`archetypes.${archetype.primaryId}.description`)}
                 </p>
 
                 {/* Policy Traits */}
@@ -186,7 +196,7 @@ function ResultPage() {
                         transition={{ duration: 0.2, delay: 0.3 + index * 0.1 }}
                       >
                         <span>{trait.emoji}</span>
-                        <span>{trait.name}</span>
+                        <span>{t(`policyTraits.${trait.id}`)}</span>
                       </motion.span>
                     ))}
                   </motion.div>
@@ -206,9 +216,11 @@ function ResultPage() {
               </div>
               <div>
                 <p className="font-medium text-gray-900 text-sm">
-                  Utopia Achieved
+                  {t("result.utopiaAchieved")}
                 </p>
-                <p className="text-gray-400 text-xs">Tier 4 Services</p>
+                <p className="text-gray-400 text-xs">
+                  {t("result.tier4Services")}
+                </p>
               </div>
             </div>
             {maxedServices.length > 0 ? (
@@ -219,12 +231,14 @@ function ResultPage() {
                     key={s.id}
                   >
                     <ServiceIcon className="h-4 w-4" iconName={s.icon} />
-                    <span className="truncate">{s.name}</span>
+                    <span className="truncate">
+                      {t(`services.${s.id}.name`)}
+                    </span>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-gray-400 text-sm">None</p>
+              <p className="text-gray-400 text-sm">{t("common.none")}</p>
             )}
           </Card>
 
@@ -235,8 +249,12 @@ function ResultPage() {
                 <MinusCircle className="h-4 w-4 text-amber-600" />
               </div>
               <div>
-                <p className="font-medium text-gray-900 text-sm">At Minimum</p>
-                <p className="text-gray-400 text-xs">Just viable</p>
+                <p className="font-medium text-gray-900 text-sm">
+                  {t("result.atMinimum")}
+                </p>
+                <p className="text-gray-400 text-xs">
+                  {t("common.justViable")}
+                </p>
               </div>
             </div>
             {minimumServices.length > 0 ? (
@@ -247,14 +265,16 @@ function ResultPage() {
                     key={s.id}
                   >
                     <ServiceIcon className="h-4 w-4" iconName={s.icon} />
-                    <span className="truncate">{s.name}</span>
+                    <span className="truncate">
+                      {t(`services.${s.id}.name`)}
+                    </span>
                   </div>
                 ))}
               </div>
             ) : (
               <p className="flex items-center gap-1.5 text-sm text-teal-600">
                 <CheckCircle className="h-3.5 w-3.5" />
-                All above minimum
+                {t("common.allAboveMinimum")}
               </p>
             )}
           </Card>
@@ -262,7 +282,9 @@ function ResultPage() {
 
         {/* Full Breakdown */}
         <Card className="mb-6 rounded-xl border border-gray-200 bg-white p-5">
-          <h3 className="mb-4 font-medium text-gray-900">Budget Breakdown</h3>
+          <h3 className="mb-4 font-medium text-gray-900">
+            {t("result.budgetBreakdown")}
+          </h3>
           <div className="space-y-3">
             {serviceStats.map(({ service, tier, allocation, atMinimum }) => {
               const hasSubServices =
@@ -284,11 +306,11 @@ function ResultPage() {
                   <div className="min-w-0 flex-1">
                     <div className="mb-1 flex items-center justify-between gap-2">
                       <span className="truncate font-medium text-gray-700 text-sm">
-                        {service.name}
+                        {t(`services.${service.id}.name`)}
                       </span>
                       <div className="flex shrink-0 items-center gap-2">
                         <span className="text-gray-400 text-xs">
-                          Tier {tier}
+                          {t("common.tier")} {tier}
                         </span>
                         {hasSubServices && (
                           <motion.div
@@ -365,11 +387,13 @@ function ResultPage() {
                                   <div className="mb-0.5 flex items-center justify-between gap-2">
                                     <div className="flex items-center gap-1.5">
                                       <span className="truncate text-gray-600 text-xs">
-                                        {subService.name}
+                                        {t(
+                                          `services.${service.id}.subServices.${subService.id}`
+                                        )}
                                       </span>
                                       {isSubAtMinimum && (
                                         <span className="rounded bg-amber-50 px-1 py-0.5 font-medium text-[9px] text-amber-600">
-                                          MIN
+                                          {t("common.min").toUpperCase()}
                                         </span>
                                       )}
                                     </div>
@@ -424,7 +448,7 @@ function ResultPage() {
             variant="outline"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Edit
+            {t("result.edit")}
           </Button>
           <Button
             className="rounded-lg border-gray-200 py-5 font-medium text-gray-700 hover:bg-gray-50"
@@ -432,14 +456,14 @@ function ResultPage() {
             variant="outline"
           >
             <RefreshCw className="mr-2 h-4 w-4" />
-            Restart
+            {t("result.restart")}
           </Button>
           <Button
             className="rounded-lg bg-teal-700 py-5 font-medium hover:bg-teal-800"
             onClick={() => setShareModalOpen(true)}
           >
             <Share2 className="mr-2 h-4 w-4" />
-            Share
+            {t("result.share")}
           </Button>
         </div>
       </div>
