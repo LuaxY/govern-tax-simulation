@@ -15,8 +15,10 @@ function RootComponent() {
 
   return (
     <div className="min-h-screen bg-[#fafafa]">
-      {/* Language Switcher - fixed at top right */}
-      <div className="fixed top-4 right-4 z-50">
+      {/* Language Switcher - fixed at top right (always on desktop, only when no wallet on mobile) */}
+      <div
+        className={`fixed top-4 right-4 z-50 ${showWallet ? "hidden sm:block" : ""}`}
+      >
         <LanguageSwitcher />
       </div>
 

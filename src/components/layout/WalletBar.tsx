@@ -1,6 +1,7 @@
 import { useStore } from "@tanstack/react-store";
 import { AlertCircle, Landmark } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { formatCurrency } from "@/lib/utils";
 import {
   budgetStore,
@@ -83,23 +84,32 @@ export function WalletBar() {
             </span>
           </div>
 
-          {/* Right side - Remaining funds */}
-          <div className="flex items-center gap-2">
-            <div className="text-right">
-              <p className="font-medium text-gray-400 text-xs">
-                {t("wallet.unallocated")}
-              </p>
-              <p className={`font-bold text-lg tabular-nums ${getTextColor()}`}>
-                {fmt(Math.round(remaining))}
-              </p>
+          {/* Right side - Remaining funds + Language Switcher */}
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <div className="text-right">
+                <p className="font-medium text-gray-400 text-xs">
+                  {t("wallet.unallocated")}
+                </p>
+                <p
+                  className={`font-bold text-lg tabular-nums ${getTextColor()}`}
+                >
+                  {fmt(Math.round(remaining))}
+                </p>
+              </div>
+
+              {/* Warning indicator */}
+              {remaining < 0 && (
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-red-100">
+                  <AlertCircle className="h-4 w-4 text-red-500" />
+                </div>
+              )}
             </div>
 
-            {/* Warning indicator */}
-            {remaining < 0 && (
-              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-red-100">
-                <AlertCircle className="h-4 w-4 text-red-500" />
-              </div>
-            )}
+            {/* Language Switcher - only on mobile */}
+            <div className="border-gray-200 border-l pl-3 sm:hidden">
+              <LanguageSwitcher />
+            </div>
           </div>
         </div>
 
