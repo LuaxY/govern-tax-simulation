@@ -10,7 +10,12 @@ import {
 
 const languages = [
   { code: "en", name: "English", flag: "🇬🇧" },
+  { code: "es", name: "Español", flag: "🇪🇸" },
   { code: "fr", name: "Français", flag: "🇫🇷" },
+  { code: "ja", name: "日本語", flag: "🇯🇵" },
+  { code: "pt", name: "Português", flag: "🇧🇷" },
+  { code: "ru", name: "Русский", flag: "🇷🇺" },
+  { code: "zh", name: "中文", flag: "🇨🇳" },
 ];
 
 export function LanguageSwitcher() {

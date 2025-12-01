@@ -1,0 +1,522 @@
+{
+  "common": {
+    "min": "Mín",
+    "max": "Máx",
+    "tier": "Nível",
+    "none": "Nenhum",
+    "requires": "Requer",
+    "next": "Próximo",
+    "atMinimum": "NO MÍNIMO",
+    "allAboveMinimum": "Tudo acima do mínimo",
+    "justViable": "Apenas viável",
+    "noTierUnlocked": "Nenhum nível desbloqueado",
+    "hide": "Ocultar",
+    "show": "Mostrar",
+    "breakdown": "detalhamento",
+    "subServices": "sub-serviços",
+    "totalAllocated": "Total alocado em sub-serviços"
+  },
+  "home": {
+    "title": "Governar",
+    "subtitle": "Aloque o orçamento da sua nação e descubra as compensações de governar.",
+    "budgetLabel": "Orçamento Nacional Anual",
+    "services": "8 Serviços",
+    "servicesDesc": "Cada um com financiamento mínimo obrigatório",
+    "tradeoffs": "Compensações Necessárias",
+    "tradeoffsDesc": "Não é possível financiar tudo completamente",
+    "infoText": "Todos os serviços começam com financiamento mínimo viável. Você decide onde investir mais.",
+    "startButton": "Começar Alocação",
+    "footer": "Cada escolha tem consequências • Compensações são inevitáveis"
+  },
+  "dashboard": {
+    "title": "Alocar o Orçamento Nacional",
+    "subtitle": "Use os controles deslizantes para financiar cada serviço governamental",
+    "distribute": "Distribuir",
+    "randomize": "Alocação aleatória",
+    "reset": "Redefinir tudo ao mínimo",
+    "finalize": "Finalizar",
+    "tip": "Dica:",
+    "tipMessage": "Aloque todo o orçamento para finalizar as prioridades do seu governo"
+  },
+  "wallet": {
+    "nationalBudget": "Orçamento Nacional",
+    "allocated": "Alocado",
+    "ofBudget": "do orçamento",
+    "unallocated": "Não alocado"
+  },
+  "result": {
+    "title": "Orçamento Finalizado",
+    "subtitle": "Veja como sua nação ficaria com base nas prioridades do seu governo",
+    "identityLabel": "A Identidade do Seu Governo",
+    "hybrid": "Híbrido",
+    "utopiaAchieved": "Utopia Alcançada",
+    "tier4Services": "Serviços Nível 4",
+    "atMinimum": "No Mínimo",
+    "budgetBreakdown": "Detalhamento do Orçamento",
+    "edit": "Editar",
+    "restart": "Reiniciar",
+    "share": "Compartilhar"
+  },
+  "share": {
+    "title": "Compartilhe Seus Resultados",
+    "subtitle": "Compartilhe a identidade do seu governo com o mundo",
+    "copyImage": "Copiar Imagem",
+    "copied": "Copiado!",
+    "download": "Baixar",
+    "shareOnX": "Compartilhar no X",
+    "shareText": "Meu governo é {{archetype}}{{hybrid}}!{{traits}}\n\nEu aloquei um orçamento nacional no Governar. Experimente você também!"
+  },
+  "toast": {
+    "unlocked": "Desbloqueado: {{perk}}",
+    "perkLost": "Benefício Perdido: {{perk}}",
+    "fundingDropped": "O financiamento caiu abaixo do limite"
+  },
+  "status": {
+    "bare": "MÍNIMO INDISPENSÁVEL",
+    "functional": "FUNCIONAL",
+    "standard": "PADRÃO",
+    "quality": "QUALIDADE",
+    "optimal": "ÓTIMO"
+  },
+  "services": {
+    "debt": {
+      "name": "Serviço da Dívida",
+      "description": "Pagamentos de juros, obrigações de títulos e gestão da dívida nacional.",
+      "tiers": {
+        "1": {
+          "name": "Pagamentos Mínimos",
+          "perk": "Crédito Mantido",
+          "benefit": "Pagamentos de juros cobertos. Classificação de crédito estável. Sem risco de inadimplência."
+        },
+        "2": {
+          "name": "Redução do Principal",
+          "perk": "Dívida Decrescente",
+          "benefit": "Pagando ativamente o principal. Relação dívida-PIB melhorando."
+        },
+        "3": {
+          "name": "Disciplina Fiscal",
+          "perk": "Superávit Orçamentário",
+          "benefit": "Orçamentos com superávit. Construindo fundo soberano de riqueza."
+        },
+        "4": {
+          "name": "Classificação AAA",
+          "perk": "Credibilidade Fiscal",
+          "benefit": "Classificação de crédito máxima. Custos de empréstimo mais baixos globalmente. Refúgio econômico seguro."
+        }
+      },
+      "subServices": {
+        "interest": "Pagamentos de Juros",
+        "bonds": "Obrigações de Títulos",
+        "management": "Gestão da Dívida"
+      }
+    },
+    "health": {
+      "name": "Saúde Pública e Bem-estar",
+      "description": "Hospitais, Farmacêuticos, Saúde Mental e Controle de Pandemias.",
+      "tiers": {
+        "1": {
+          "name": "A Rede de Segurança",
+          "perk": "Acesso de Emergência",
+          "benefit": "Nenhum cidadão morre por falta de atendimento urgente. As ambulâncias são funcionais."
+        },
+        "2": {
+          "name": "Atendimento Padrão",
+          "perk": "Zero Tempo de Espera",
+          "benefit": "Cirurgias eletivas em semanas, não meses. Médicos de família disponíveis no mesmo dia."
+        },
+        "3": {
+          "name": "Cobertura Total",
+          "perk": "Dental e Visão Incluídos",
+          "benefit": "Dentes e olhos totalmente cobertos. Terapia de saúde mental gratuita."
+        },
+        "4": {
+          "name": "Prevenção Universal",
+          "perk": "Resultados de Classe Mundial",
+          "benefit": "Check-ups anuais gratuitos para todos. Rastreamento abrangente de câncer. Top 5 em resultados de saúde global."
+        }
+      },
+      "subServices": {
+        "hospitals": "Hospitais",
+        "pharmaceuticals": "Farmacêuticos",
+        "mental-health": "Saúde Mental",
+        "pandemic": "Controle de Pandemias"
+      }
+    },
+    "infrastructure": {
+      "name": "Infraestrutura e Transporte",
+      "description": "Estradas, Ferrovias, Sistemas de Água, Internet e Gestão de Resíduos.",
+      "tiers": {
+        "1": {
+          "name": "Conectividade Básica",
+          "perk": "Sem Buracos",
+          "benefit": "Rodovias principais pavimentadas anualmente. Água potável em todas as torneiras."
+        },
+        "2": {
+          "name": "Nação Digital",
+          "perk": "Fibra em Todo Lugar",
+          "benefit": "Internet de fibra de alta velocidade para cada lar, incluindo fazendas rurais."
+        },
+        "3": {
+          "name": "Rede de Alta Velocidade",
+          "perk": "Trens-Bala",
+          "benefit": "Conecta principais cidades em menos de 2 horas. Voos domésticos obsoletos."
+        },
+        "4": {
+          "name": "Mobilidade como Direito",
+          "perk": "Transporte Gratuito",
+          "benefit": "Todos os metrôs, ônibus e trens são 100% gratuitos para todos."
+        }
+      },
+      "subServices": {
+        "roads": "Estradas",
+        "rail": "Ferrovias",
+        "water": "Sistemas de Água",
+        "internet": "Internet",
+        "waste": "Gestão de Resíduos"
+      }
+    },
+    "defense": {
+      "name": "Segurança e Defesa",
+      "description": "Militar, Polícia, Bombeiros, Cibersegurança e Fronteiras.",
+      "tiers": {
+        "1": {
+          "name": "Soberania",
+          "perk": "Integridade das Fronteiras",
+          "benefit": "As fronteiras são monitoradas. Os tempos de resposta policial básica são estáveis."
+        },
+        "2": {
+          "name": "Resposta Rápida",
+          "perk": "Escudo contra Desastres",
+          "benefit": "Equipes de resgate despachadas para qualquer zona de enchente ou incêndio em 4 horas."
+        },
+        "3": {
+          "name": "Resiliência Cibernética",
+          "perk": "Infraestrutura Protegida",
+          "benefit": "Sistemas críticos protegidos contra ataques. Equipes de resposta rápida a incidentes. Conscientização pública sobre cibersegurança."
+        },
+        "4": {
+          "name": "Líder em Segurança Regional",
+          "perk": "Estabilidade Estratégica",
+          "benefit": "Capacidades de defesa avançadas. Contribuições ativas para manutenção da paz. Fortes alianças de defesa mútua."
+        }
+      },
+      "subServices": {
+        "military": "Militar",
+        "police": "Polícia",
+        "fire": "Bombeiros",
+        "cyber": "Cibersegurança",
+        "borders": "Segurança de Fronteiras"
+      }
+    },
+    "education": {
+      "name": "Educação e Inovação",
+      "description": "Escolas, Universidades, Bolsas de P&D, Agências Espaciais e Artes.",
+      "tiers": {
+        "1": {
+          "name": "Alfabetização",
+          "perk": "Escola para Todos",
+          "benefit": "Toda criança tem garantia de uma carteira, livros e um professor até os 18 anos."
+        },
+        "2": {
+          "name": "Força de Trabalho Qualificada",
+          "perk": "Domínio de Ofícios",
+          "benefit": "Formação profissional gratuita para encanadores, programadores e eletricistas."
+        },
+        "3": {
+          "name": "Economia do Conhecimento",
+          "perk": "Universidade Gratuita",
+          "benefit": "O ensino superior é gratuito. Sociedade sem dívida estudantil."
+        },
+        "4": {
+          "name": "Nação de Inovação",
+          "perk": "Centro Global de P&D",
+          "benefit": "Top 10 em rankings universitários globais. Gastos em P&D acima de 3% do PIB. Ecossistema de startups próspero."
+        }
+      },
+      "subServices": {
+        "schools": "Escolas",
+        "universities": "Universidades",
+        "research": "Bolsas de P&D",
+        "space": "Agências Espaciais",
+        "arts": "Arte e Cultura"
+      }
+    },
+    "environment": {
+      "name": "Meio Ambiente e Recursos",
+      "description": "Parques, Controle de Poluição, Energia Verde e Agricultura.",
+      "tiers": {
+        "1": {
+          "name": "Limpeza",
+          "perk": "Ar Respirável",
+          "benefit": "Smog eliminado das cidades. Locais de resíduos industriais limpos."
+        },
+        "2": {
+          "name": "Preservação",
+          "perk": "Renaturalização",
+          "benefit": "20% do território nacional designado como reservas naturais protegidas."
+        },
+        "3": {
+          "name": "A Transição",
+          "perk": "100% Renováveis",
+          "benefit": "A rede funciona apenas com eólica/solar/nuclear. Combustíveis fósseis proibidos."
+        },
+        "4": {
+          "name": "Carbono Neutro",
+          "perk": "Net-Zero Alcançado",
+          "benefit": "Emissões líquidas zero alcançadas. Infraestrutura de adaptação climática completa. Liderança ambiental global."
+        }
+      },
+      "subServices": {
+        "parks": "Parques e Conservação",
+        "pollution": "Controle de Poluição",
+        "energy": "Energia Verde",
+        "agriculture": "Agricultura"
+      }
+    },
+    "social": {
+      "name": "Proteção Social",
+      "description": "Pensões, Desemprego, Habitação e Cuidado Infantil.",
+      "tiers": {
+        "1": {
+          "name": "Dignidade",
+          "perk": "Segurança Alimentar",
+          "benefit": "Bancos de alimentos e abrigos de emergência disponíveis para os necessitados."
+        },
+        "2": {
+          "name": "Rede de Segurança",
+          "perk": "Salários Dignos",
+          "benefit": "Os benefícios de desemprego cobrem 80% do salário perdido por 6 meses."
+        },
+        "3": {
+          "name": "Família em Primeiro",
+          "perk": "Creche Gratuita",
+          "benefit": "Creche financiada pelo estado e 1 ano de licença parental remunerada."
+        },
+        "4": {
+          "name": "Pós-Escassez",
+          "perk": "Renda Básica Universal",
+          "benefit": "Todo cidadão recebe um estipêndio mensal para cobrir necessidades básicas."
+        }
+      },
+      "subServices": {
+        "pensions": "Pensões",
+        "unemployment": "Desemprego",
+        "housing": "Habitação",
+        "childcare": "Cuidado Infantil"
+      }
+    },
+    "governance": {
+      "name": "Governança e Diplomacia",
+      "description": "Administração, Arrecadação de Impostos, Ajuda Externa e Justiça.",
+      "tiers": {
+        "1": {
+          "name": "Funcionalidade",
+          "perk": "Impostos e Censo",
+          "benefit": "O governo pode arrecadar fundos e contar votos com precisão."
+        },
+        "2": {
+          "name": "Eficiência",
+          "perk": "Burocracia Digital",
+          "benefit": "Sem formulários em papel. Todas as licenças e permissões processadas instantaneamente por aplicativo."
+        },
+        "3": {
+          "name": "Ajuda Global",
+          "perk": "Poder Brando",
+          "benefit": "Enorme orçamento de ajuda externa aumenta a influência global e o comércio."
+        },
+        "4": {
+          "name": "Democracia Transparente",
+          "perk": "Máxima Confiança",
+          "benefit": "Governo de dados abertos. Tribunais anticorrupção independentes. Rankings globais máximos de confiança e transparência."
+        }
+      },
+      "subServices": {
+        "admin": "Administração",
+        "tax": "Arrecadação de Impostos",
+        "foreign-aid": "Ajuda Externa",
+        "justice": "Sistema de Justiça"
+      }
+    }
+  },
+  "archetypes": {
+    "debt": {
+      "name": "O Falcão Fiscal",
+      "description": "Você prioriza a estabilidade financeira e a redução da dívida acima de tudo."
+    },
+    "health": {
+      "name": "O Humanitário",
+      "description": "Você prioriza a saúde e o bem-estar de todos os cidadãos."
+    },
+    "infrastructure": {
+      "name": "O Construtor",
+      "description": "Você acredita em conectar e empoderar através da infraestrutura."
+    },
+    "defense": {
+      "name": "O Guardião",
+      "description": "Segurança e proteção são suas principais preocupações."
+    },
+    "education": {
+      "name": "O Visionário",
+      "description": "Você investe no futuro através do conhecimento e da inovação."
+    },
+    "environment": {
+      "name": "O Naturalista",
+      "description": "Você defende o planeta e a vida sustentável."
+    },
+    "social": {
+      "name": "O Cuidador",
+      "description": "Você garante que nenhum cidadão fique para trás na sociedade."
+    },
+    "governance": {
+      "name": "O Diplomata",
+      "description": "Você valoriza a governança eficiente e a cooperação global."
+    }
+  },
+  "compoundArchetypes": {
+    "education-health": {
+      "name": "O Progressista Social",
+      "description": "Um governo que investe nas pessoas através da saúde e do conhecimento."
+    },
+    "health-social": {
+      "name": "O Campeão do Bem-estar",
+      "description": "Um estado compassivo focado no bem-estar dos cidadãos e na segurança social."
+    },
+    "environment-health": {
+      "name": "O Curador Holístico",
+      "description": "Você acredita que pessoas saudáveis precisam de um planeta saudável."
+    },
+    "defense-health": {
+      "name": "O Protetor",
+      "description": "Segurança e saúde formam a base da sua nação."
+    },
+    "education-environment": {
+      "name": "O Planejador do Futuro",
+      "description": "Investindo em mentes e no planeta para as gerações futuras."
+    },
+    "education-infrastructure": {
+      "name": "O Modernizador",
+      "description": "Construindo infraestrutura inteligente e cidadãos educados."
+    },
+    "defense-education": {
+      "name": "O Pensador Estratégico",
+      "description": "Conhecimento e segurança são seus pilares de força."
+    },
+    "education-social": {
+      "name": "O Igualador",
+      "description": "Educação e apoio social quebram o ciclo de desigualdade."
+    },
+    "defense-infrastructure": {
+      "name": "O Construtor Estratégico",
+      "description": "Infraestrutura forte e defesa forte fazem uma nação forte."
+    },
+    "environment-infrastructure": {
+      "name": "O Engenheiro Verde",
+      "description": "Construindo infraestrutura sustentável para um futuro mais limpo."
+    },
+    "infrastructure-social": {
+      "name": "O Servidor Público",
+      "description": "Infraestrutura e serviços sociais que elevam todos os cidadãos."
+    },
+    "defense-environment": {
+      "name": "O Guardião dos Recursos",
+      "description": "Protegendo a nação e seus recursos naturais."
+    },
+    "defense-social": {
+      "name": "O Estado Sentinela",
+      "description": "Uma nação segura com uma forte rede de segurança social."
+    },
+    "defense-governance": {
+      "name": "O Guardião da Ordem",
+      "description": "Instituições fortes e segurança mantêm a estabilidade."
+    },
+    "environment-social": {
+      "name": "O Socialista Verde",
+      "description": "Justiça ambiental e igualdade social andam de mãos dadas."
+    },
+    "governance-social": {
+      "name": "O Administrador",
+      "description": "Governança eficiente entregando programas sociais a todos."
+    },
+    "governance-health": {
+      "name": "O Oficial de Saúde Pública",
+      "description": "Sistemas bem organizados entregando cuidados de saúde a todos."
+    },
+    "education-governance": {
+      "name": "O Burocrata Iluminado",
+      "description": "Governança inteligente impulsionada por cidadãos educados."
+    },
+    "governance-infrastructure": {
+      "name": "O Arquiteto de Sistemas",
+      "description": "Construindo sistemas eficientes tanto físicos quanto administrativos."
+    },
+    "environment-governance": {
+      "name": "O Regulador",
+      "description": "Política ambiental forte apoiada por instituições capazes."
+    },
+    "debt-governance": {
+      "name": "O Conservador Fiscal",
+      "description": "Gastos prudentes e governo eficiente reduzem a dívida nacional."
+    },
+    "debt-infrastructure": {
+      "name": "O Investidor Pragmático",
+      "description": "Gastos estratégicos em infraestrutura enquanto gerencia a dívida de forma responsável."
+    },
+    "debt-health": {
+      "name": "O Administrador Equilibrado",
+      "description": "Mantendo a saúde fiscal enquanto cuida da saúde dos cidadãos."
+    },
+    "debt-education": {
+      "name": "O Planejador de Longo Prazo",
+      "description": "Investindo em educação enquanto garante sustentabilidade fiscal."
+    },
+    "debt-defense": {
+      "name": "O Construtor de Fortaleza",
+      "description": "Segurança financeira e segurança nacional são igualmente vitais."
+    },
+    "debt-environment": {
+      "name": "O Economista Sustentável",
+      "description": "Investimentos verdes que também fazem sentido fiscal."
+    },
+    "debt-social": {
+      "name": "O Cuidador Responsável",
+      "description": "Programas sociais financiados de forma sustentável a longo prazo."
+    }
+  },
+  "policyTraits": {
+    "mental-health-champion": "Campeão da Saúde Mental",
+    "pandemic-prepared": "Preparado para Pandemias",
+    "pharma-focus": "Focado em Farmacêutica",
+    "hospital-builder": "Construtor de Hospitais",
+    "space-enthusiast": "Entusiasta do Espaço",
+    "arts-patron": "Patrono das Artes",
+    "research-driven": "Impulsionado pela Pesquisa",
+    "university-champion": "Campeão Universitário",
+    "rail-enthusiast": "Entusiasta de Ferrovias",
+    "digital-first": "Digital em Primeiro",
+    "road-warrior": "Guerreiro das Estradas",
+    "water-guardian": "Guardião da Água",
+    "cyber-defender": "Defensor Cibernético",
+    "military-strong": "Militar Forte",
+    "firefighter-hero": "Foco em Primeiros Socorros",
+    "border-hawk": "Falcão das Fronteiras",
+    "climate-forward": "Orientado ao Clima",
+    "park-ranger": "Guarda Florestal",
+    "pollution-fighter": "Combatente da Poluição",
+    "farm-supporter": "Apoiador Rural",
+    "housing-advocate": "Defensor da Habitação",
+    "childcare-champion": "Campeão do Cuidado Infantil",
+    "pension-protector": "Protetor de Pensões",
+    "job-security": "Defensor da Segurança no Emprego",
+    "global-aid-leader": "Líder em Ajuda Global",
+    "justice-seeker": "Buscador de Justiça",
+    "tax-reformer": "Reformador Tributário",
+    "efficient-admin": "Administrador Eficiente",
+    "bond-manager": "Gestor de Títulos",
+    "debt-hawk": "Falcão da Dívida"
+  },
+  "governanceStyles": {
+    "balanced": "Equilibrado",
+    "austerity": "Austeridade",
+    "expansive": "Expansivo"
+  }
+}

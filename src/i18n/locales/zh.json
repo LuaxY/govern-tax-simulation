@@ -1,0 +1,522 @@
+{
+  "common": {
+    "min": "最小",
+    "max": "最大",
+    "tier": "等级",
+    "none": "无",
+    "requires": "需要",
+    "next": "下一步",
+    "atMinimum": "最低限度",
+    "allAboveMinimum": "全部高于最低限度",
+    "justViable": "勉强可行",
+    "noTierUnlocked": "未解锁任何等级",
+    "hide": "隐藏",
+    "show": "显示",
+    "breakdown": "明细",
+    "subServices": "子服务",
+    "totalAllocated": "分配给子服务的总额"
+  },
+  "home": {
+    "title": "治国",
+    "subtitle": "分配国家预算，发现治理中的权衡取舍。",
+    "budgetLabel": "国家年度预算",
+    "services": "8项服务",
+    "servicesDesc": "每项都有强制性最低资金",
+    "tradeoffs": "需要权衡",
+    "tradeoffsDesc": "无法为所有项目提供完全资金",
+    "infoText": "所有服务从最低可行资金开始。由您决定在哪里增加投资。",
+    "startButton": "开始分配",
+    "footer": "每个选择都有后果 • 权衡不可避免"
+  },
+  "dashboard": {
+    "title": "分配国家预算",
+    "subtitle": "使用滑块为每项政府服务提供资金",
+    "distribute": "分配",
+    "randomize": "随机分配",
+    "reset": "全部重置为最低",
+    "finalize": "完成",
+    "tip": "提示：",
+    "tipMessage": "分配全部预算以确定政府的优先事项"
+  },
+  "wallet": {
+    "nationalBudget": "国家预算",
+    "allocated": "已分配",
+    "ofBudget": "预算的",
+    "unallocated": "未分配"
+  },
+  "result": {
+    "title": "预算已完成",
+    "subtitle": "根据您政府的优先事项，您的国家将会是这样",
+    "identityLabel": "您政府的身份",
+    "hybrid": "混合型",
+    "utopiaAchieved": "乌托邦实现",
+    "tier4Services": "四级服务",
+    "atMinimum": "最低限度",
+    "budgetBreakdown": "预算明细",
+    "edit": "编辑",
+    "restart": "重新开始",
+    "share": "分享"
+  },
+  "share": {
+    "title": "分享您的结果",
+    "subtitle": "向世界分享您政府的身份",
+    "copyImage": "复制图片",
+    "copied": "已复制！",
+    "download": "下载",
+    "shareOnX": "在X上分享",
+    "shareText": "我的政府是{{archetype}}{{hybrid}}！{{traits}}\n\n我在「治国」中分配了国家预算。快来试试！"
+  },
+  "toast": {
+    "unlocked": "已解锁：{{perk}}",
+    "perkLost": "失去特权：{{perk}}",
+    "fundingDropped": "资金低于阈值"
+  },
+  "status": {
+    "bare": "最低限度",
+    "functional": "功能正常",
+    "standard": "标准",
+    "quality": "优质",
+    "optimal": "最优"
+  },
+  "services": {
+    "debt": {
+      "name": "债务偿还",
+      "description": "利息支付、债券义务和国家债务管理。",
+      "tiers": {
+        "1": {
+          "name": "最低还款",
+          "perk": "信用维持",
+          "benefit": "利息支付有保障。信用评级稳定。无违约风险。"
+        },
+        "2": {
+          "name": "本金削减",
+          "perk": "债务下降",
+          "benefit": "积极偿还本金。债务占GDP比率改善。"
+        },
+        "3": {
+          "name": "财政纪律",
+          "perk": "预算盈余",
+          "benefit": "运行盈余预算。建设主权财富基金。"
+        },
+        "4": {
+          "name": "AAA评级",
+          "perk": "财政信誉",
+          "benefit": "最高信用评级。全球最低借贷成本。经济避风港。"
+        }
+      },
+      "subServices": {
+        "interest": "利息支付",
+        "bonds": "债券义务",
+        "management": "债务管理"
+      }
+    },
+    "health": {
+      "name": "公共卫生与福祉",
+      "description": "医院、制药、心理健康和疫情控制。",
+      "tiers": {
+        "1": {
+          "name": "安全网",
+          "perk": "紧急救治",
+          "benefit": "没有公民因缺乏紧急护理而死亡。救护车运行正常。"
+        },
+        "2": {
+          "name": "标准医疗",
+          "perk": "零等待时间",
+          "benefit": "择期手术在数周内完成，而非数月。家庭医生当天可预约。"
+        },
+        "3": {
+          "name": "全面覆盖",
+          "perk": "牙科和视力纳入",
+          "benefit": "牙齿和眼睛全面覆盖。心理健康治疗免费。"
+        },
+        "4": {
+          "name": "全民预防",
+          "perk": "世界级成果",
+          "benefit": "所有人免费年度体检。全面癌症筛查。全球健康成果前5名。"
+        }
+      },
+      "subServices": {
+        "hospitals": "医院",
+        "pharmaceuticals": "制药",
+        "mental-health": "心理健康",
+        "pandemic": "疫情控制"
+      }
+    },
+    "infrastructure": {
+      "name": "基础设施与交通",
+      "description": "道路、铁路、供水系统、互联网和废物管理。",
+      "tiers": {
+        "1": {
+          "name": "基本连通",
+          "perk": "无坑洼",
+          "benefit": "主要高速公路每年修缮。所有水龙头有饮用水。"
+        },
+        "2": {
+          "name": "数字国家",
+          "perk": "光纤无处不在",
+          "benefit": "每个家庭都有高速光纤网络，包括农村农场。"
+        },
+        "3": {
+          "name": "高速网络",
+          "perk": "高铁",
+          "benefit": "2小时内连接主要城市。国内航班过时。"
+        },
+        "4": {
+          "name": "出行权利",
+          "perk": "零票价交通",
+          "benefit": "所有地铁、公交和火车对所有人100%免费。"
+        }
+      },
+      "subServices": {
+        "roads": "道路",
+        "rail": "铁路",
+        "water": "供水系统",
+        "internet": "互联网",
+        "waste": "废物管理"
+      }
+    },
+    "defense": {
+      "name": "安全与国防",
+      "description": "军队、警察、消防、网络安全和边境。",
+      "tiers": {
+        "1": {
+          "name": "主权",
+          "perk": "边境完整",
+          "benefit": "边境受到监控。基本警察响应时间稳定。"
+        },
+        "2": {
+          "name": "快速响应",
+          "perk": "灾害防护",
+          "benefit": "救援队在4小时内部署到任何洪水或火灾区域。"
+        },
+        "3": {
+          "name": "网络韧性",
+          "perk": "基础设施保护",
+          "benefit": "关键系统防护攻击。快速事件响应团队。公众网络安全意识。"
+        },
+        "4": {
+          "name": "区域安全领导者",
+          "perk": "战略稳定",
+          "benefit": "先进国防能力。积极参与维和。强大的共同防御联盟。"
+        }
+      },
+      "subServices": {
+        "military": "军队",
+        "police": "警察",
+        "fire": "消防",
+        "cyber": "网络安全",
+        "borders": "边境安全"
+      }
+    },
+    "education": {
+      "name": "教育与创新",
+      "description": "学校、大学、研发资助、航天机构和艺术。",
+      "tiers": {
+        "1": {
+          "name": "识字",
+          "perk": "人人有学上",
+          "benefit": "每个孩子都有课桌、书本和老师直到18岁。"
+        },
+        "2": {
+          "name": "技能劳动力",
+          "perk": "技艺精湛",
+          "benefit": "水管工、程序员和电工的免费职业培训。"
+        },
+        "3": {
+          "name": "知识经济",
+          "perk": "大学免费",
+          "benefit": "高等教育免费。零学生贷款社会。"
+        },
+        "4": {
+          "name": "创新国家",
+          "perk": "全球研发中心",
+          "benefit": "全球大学排名前10。研发支出超过GDP的3%。繁荣的创业生态系统。"
+        }
+      },
+      "subServices": {
+        "schools": "学校",
+        "universities": "大学",
+        "research": "研发资助",
+        "space": "航天机构",
+        "arts": "艺术与文化"
+      }
+    },
+    "environment": {
+      "name": "环境与资源",
+      "description": "公园、污染控制、绿色能源和农业。",
+      "tiers": {
+        "1": {
+          "name": "清洁",
+          "perk": "可呼吸的空气",
+          "benefit": "城市雾霾消除。工业废弃物场地清理。"
+        },
+        "2": {
+          "name": "保护",
+          "perk": "再野化",
+          "benefit": "20%国土被指定为受保护的自然保护区。"
+        },
+        "3": {
+          "name": "转型",
+          "perk": "100%可再生能源",
+          "benefit": "电网仅靠风能/太阳能/核能运行。化石燃料被禁止。"
+        },
+        "4": {
+          "name": "碳中和",
+          "perk": "净零实现",
+          "benefit": "净零排放实现。气候适应基础设施完成。全球环境领导地位。"
+        }
+      },
+      "subServices": {
+        "parks": "公园与保护",
+        "pollution": "污染控制",
+        "energy": "绿色能源",
+        "agriculture": "农业"
+      }
+    },
+    "social": {
+      "name": "社会保障",
+      "description": "养老金、失业、住房和托儿。",
+      "tiers": {
+        "1": {
+          "name": "尊严",
+          "perk": "食品安全",
+          "benefit": "为有需要的人提供食品银行和紧急庇护所。"
+        },
+        "2": {
+          "name": "安全网",
+          "perk": "生活工资",
+          "benefit": "失业救济金覆盖6个月内80%的工资损失。"
+        },
+        "3": {
+          "name": "家庭优先",
+          "perk": "免费托儿",
+          "benefit": "国家资助的托儿所和1年带薪育儿假。"
+        },
+        "4": {
+          "name": "后稀缺时代",
+          "perk": "全民基本收入",
+          "benefit": "每位公民每月获得津贴以满足基本需求。"
+        }
+      },
+      "subServices": {
+        "pensions": "养老金",
+        "unemployment": "失业",
+        "housing": "住房",
+        "childcare": "托儿"
+      }
+    },
+    "governance": {
+      "name": "治理与外交",
+      "description": "行政、税收、对外援助和司法。",
+      "tiers": {
+        "1": {
+          "name": "功能性",
+          "perk": "税收与人口普查",
+          "benefit": "政府能够准确征收资金和计票。"
+        },
+        "2": {
+          "name": "效率",
+          "perk": "数字化官僚",
+          "benefit": "无纸质表格。所有许可证和执照通过应用程序即时处理。"
+        },
+        "3": {
+          "name": "全球援助",
+          "perk": "软实力",
+          "benefit": "庞大的对外援助预算增加全球影响力和贸易。"
+        },
+        "4": {
+          "name": "透明民主",
+          "perk": "最高信任",
+          "benefit": "开放数据政府。独立反腐败法院。全球信任和透明度排名最高。"
+        }
+      },
+      "subServices": {
+        "admin": "行政",
+        "tax": "税收",
+        "foreign-aid": "对外援助",
+        "justice": "司法系统"
+      }
+    }
+  },
+  "archetypes": {
+    "debt": {
+      "name": "财政鹰派",
+      "description": "您将财政稳定和减少债务置于一切之上。"
+    },
+    "health": {
+      "name": "人道主义者",
+      "description": "您优先考虑所有公民的健康和福祉。"
+    },
+    "infrastructure": {
+      "name": "建设者",
+      "description": "您相信通过基础设施来连接和赋能。"
+    },
+    "defense": {
+      "name": "守护者",
+      "description": "安全和保护是您的主要关注点。"
+    },
+    "education": {
+      "name": "远见者",
+      "description": "您通过知识和创新投资未来。"
+    },
+    "environment": {
+      "name": "自然主义者",
+      "description": "您倡导地球和可持续生活。"
+    },
+    "social": {
+      "name": "关怀者",
+      "description": "您确保社会中没有公民被遗落。"
+    },
+    "governance": {
+      "name": "外交家",
+      "description": "您重视高效治理和全球合作。"
+    }
+  },
+  "compoundArchetypes": {
+    "education-health": {
+      "name": "社会进步主义者",
+      "description": "一个通过健康和知识投资于人民的政府。"
+    },
+    "health-social": {
+      "name": "福利冠军",
+      "description": "一个关注公民福祉和社会安全的富有同情心的国家。"
+    },
+    "environment-health": {
+      "name": "全面治愈者",
+      "description": "您相信健康的人需要健康的星球。"
+    },
+    "defense-health": {
+      "name": "保护者",
+      "description": "安全和健康构成您国家的基础。"
+    },
+    "education-environment": {
+      "name": "未来规划者",
+      "description": "为子孙后代投资于思想和地球。"
+    },
+    "education-infrastructure": {
+      "name": "现代化者",
+      "description": "建设智能基础设施和受过教育的公民。"
+    },
+    "defense-education": {
+      "name": "战略思考者",
+      "description": "知识和安全是您力量的支柱。"
+    },
+    "education-social": {
+      "name": "平等主义者",
+      "description": "教育和社会支持打破不平等的循环。"
+    },
+    "defense-infrastructure": {
+      "name": "战略建设者",
+      "description": "强大的基础设施和强大的国防造就强大的国家。"
+    },
+    "environment-infrastructure": {
+      "name": "绿色工程师",
+      "description": "为更清洁的未来建设可持续基础设施。"
+    },
+    "infrastructure-social": {
+      "name": "公仆",
+      "description": "提升所有公民的基础设施和社会服务。"
+    },
+    "defense-environment": {
+      "name": "资源守护者",
+      "description": "保护国家及其自然资源。"
+    },
+    "defense-social": {
+      "name": "哨兵国家",
+      "description": "一个拥有强大社会安全网的安全国家。"
+    },
+    "defense-governance": {
+      "name": "秩序守护者",
+      "description": "强大的机构和安全维护稳定。"
+    },
+    "environment-social": {
+      "name": "绿色社会主义者",
+      "description": "环境正义和社会平等齐头并进。"
+    },
+    "governance-social": {
+      "name": "行政官",
+      "description": "高效的治理为所有人提供社会项目。"
+    },
+    "governance-health": {
+      "name": "公共卫生官员",
+      "description": "组织良好的系统为所有人提供医疗保健。"
+    },
+    "education-governance": {
+      "name": "开明官僚",
+      "description": "由受过教育的公民推动的智能治理。"
+    },
+    "governance-infrastructure": {
+      "name": "系统架构师",
+      "description": "建设高效的物理和行政系统。"
+    },
+    "environment-governance": {
+      "name": "监管者",
+      "description": "由有能力的机构支持的强有力环境政策。"
+    },
+    "debt-governance": {
+      "name": "财政保守派",
+      "description": "审慎支出和高效政府减少国家债务。"
+    },
+    "debt-infrastructure": {
+      "name": "务实投资者",
+      "description": "战略性基础设施支出同时负责任地管理债务。"
+    },
+    "debt-health": {
+      "name": "平衡管理者",
+      "description": "在照顾公民健康的同时保持财政健康。"
+    },
+    "debt-education": {
+      "name": "长期规划者",
+      "description": "在确保财政可持续性的同时投资教育。"
+    },
+    "debt-defense": {
+      "name": "堡垒建设者",
+      "description": "财务安全和国家安全同等重要。"
+    },
+    "debt-environment": {
+      "name": "可持续经济学家",
+      "description": "同时具有财政意义的绿色投资。"
+    },
+    "debt-social": {
+      "name": "负责任的关怀者",
+      "description": "长期可持续资助的社会项目。"
+    }
+  },
+  "policyTraits": {
+    "mental-health-champion": "心理健康冠军",
+    "pandemic-prepared": "疫情准备",
+    "pharma-focus": "制药重点",
+    "hospital-builder": "医院建设者",
+    "space-enthusiast": "航天爱好者",
+    "arts-patron": "艺术赞助人",
+    "research-driven": "研究驱动",
+    "university-champion": "大学冠军",
+    "rail-enthusiast": "铁路爱好者",
+    "digital-first": "数字优先",
+    "road-warrior": "道路战士",
+    "water-guardian": "水资源守护者",
+    "cyber-defender": "网络防御者",
+    "military-strong": "军事强国",
+    "firefighter-hero": "急救重点",
+    "border-hawk": "边境鹰派",
+    "climate-forward": "气候前瞻",
+    "park-ranger": "公园护林员",
+    "pollution-fighter": "污染斗士",
+    "farm-supporter": "农业支持者",
+    "housing-advocate": "住房倡导者",
+    "childcare-champion": "托儿冠军",
+    "pension-protector": "养老金保护者",
+    "job-security": "就业安全倡导者",
+    "global-aid-leader": "全球援助领导者",
+    "justice-seeker": "正义追求者",
+    "tax-reformer": "税务改革者",
+    "efficient-admin": "高效行政官",
+    "bond-manager": "债券管理者",
+    "debt-hawk": "债务鹰派"
+  },
+  "governanceStyles": {
+    "balanced": "平衡",
+    "austerity": "紧缩",
+    "expansive": "扩张"
+  }
+}

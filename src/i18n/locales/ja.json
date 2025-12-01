@@ -1,0 +1,522 @@
+{
+  "common": {
+    "min": "最小",
+    "max": "最大",
+    "tier": "ティア",
+    "none": "なし",
+    "requires": "必要",
+    "next": "次へ",
+    "atMinimum": "最低限",
+    "allAboveMinimum": "すべて最低限以上",
+    "justViable": "ぎりぎり実行可能",
+    "noTierUnlocked": "アンロックされたティアなし",
+    "hide": "非表示",
+    "show": "表示",
+    "breakdown": "内訳",
+    "subServices": "サブサービス",
+    "totalAllocated": "サブサービスへの総配分"
+  },
+  "home": {
+    "title": "統治",
+    "subtitle": "国家予算を配分し、統治のトレードオフを発見しましょう。",
+    "budgetLabel": "国家年間予算",
+    "services": "8つのサービス",
+    "servicesDesc": "それぞれに必須の最低資金",
+    "tradeoffs": "トレードオフが必要",
+    "tradeoffsDesc": "すべてを完全に資金提供することは不可能",
+    "infoText": "すべてのサービスは最低限の実行可能な資金から始まります。どこにより多く投資するかはあなた次第です。",
+    "startButton": "配分を開始",
+    "footer": "すべての選択には結果が伴う • トレードオフは避けられない"
+  },
+  "dashboard": {
+    "title": "国家予算を配分",
+    "subtitle": "スライダーを使用して各政府サービスに資金を提供",
+    "distribute": "配分",
+    "randomize": "ランダム配分",
+    "reset": "すべて最低限にリセット",
+    "finalize": "確定",
+    "tip": "ヒント：",
+    "tipMessage": "予算全体を配分して政府の優先事項を確定してください"
+  },
+  "wallet": {
+    "nationalBudget": "国家予算",
+    "allocated": "配分済み",
+    "ofBudget": "予算の",
+    "unallocated": "未配分"
+  },
+  "result": {
+    "title": "予算確定",
+    "subtitle": "政府の優先事項に基づいた国家の姿",
+    "identityLabel": "あなたの政府のアイデンティティ",
+    "hybrid": "ハイブリッド",
+    "utopiaAchieved": "ユートピア達成",
+    "tier4Services": "ティア4サービス",
+    "atMinimum": "最低限",
+    "budgetBreakdown": "予算内訳",
+    "edit": "編集",
+    "restart": "最初から",
+    "share": "共有"
+  },
+  "share": {
+    "title": "結果を共有",
+    "subtitle": "政府のアイデンティティを世界と共有しましょう",
+    "copyImage": "画像をコピー",
+    "copied": "コピーしました！",
+    "download": "ダウンロード",
+    "shareOnX": "Xで共有",
+    "shareText": "私の政府は{{archetype}}{{hybrid}}です！{{traits}}\n\n「統治」で国家予算を配分しました。あなたも試してみてください！"
+  },
+  "toast": {
+    "unlocked": "アンロック：{{perk}}",
+    "perkLost": "特典喪失：{{perk}}",
+    "fundingDropped": "資金がしきい値を下回りました"
+  },
+  "status": {
+    "bare": "最低限",
+    "functional": "機能的",
+    "standard": "標準",
+    "quality": "高品質",
+    "optimal": "最適"
+  },
+  "services": {
+    "debt": {
+      "name": "債務返済",
+      "description": "利払い、債券義務、国家債務管理。",
+      "tiers": {
+        "1": {
+          "name": "最低限の支払い",
+          "perk": "信用維持",
+          "benefit": "利払いがカバーされています。信用格付けは安定。デフォルトリスクなし。"
+        },
+        "2": {
+          "name": "元本削減",
+          "perk": "債務減少",
+          "benefit": "積極的に元本を返済。債務対GDP比率が改善。"
+        },
+        "3": {
+          "name": "財政規律",
+          "perk": "財政黒字",
+          "benefit": "黒字予算を運営。政府系ファンドを構築。"
+        },
+        "4": {
+          "name": "AAA格付け",
+          "perk": "財政信頼性",
+          "benefit": "最高信用格付け。世界最低の借入コスト。経済的セーフヘイブン。"
+        }
+      },
+      "subServices": {
+        "interest": "利払い",
+        "bonds": "債券義務",
+        "management": "債務管理"
+      }
+    },
+    "health": {
+      "name": "公衆衛生と福祉",
+      "description": "病院、製薬、メンタルヘルス、パンデミック対策。",
+      "tiers": {
+        "1": {
+          "name": "セーフティネット",
+          "perk": "緊急アクセス",
+          "benefit": "緊急医療の欠如で死亡する市民はいません。救急車は機能しています。"
+        },
+        "2": {
+          "name": "標準ケア",
+          "perk": "待ち時間ゼロ",
+          "benefit": "選択的手術は数ヶ月ではなく数週間で。かかりつけ医は当日予約可能。"
+        },
+        "3": {
+          "name": "完全カバレッジ",
+          "perk": "歯科・視力含む",
+          "benefit": "歯と目は完全にカバー。メンタルヘルス療法は無料。"
+        },
+        "4": {
+          "name": "普遍的予防",
+          "perk": "世界トップクラスの成果",
+          "benefit": "全員に無料の年次健康診断。包括的ながん検診。世界トップ5の健康成果。"
+        }
+      },
+      "subServices": {
+        "hospitals": "病院",
+        "pharmaceuticals": "製薬",
+        "mental-health": "メンタルヘルス",
+        "pandemic": "パンデミック対策"
+      }
+    },
+    "infrastructure": {
+      "name": "インフラと交通",
+      "description": "道路、鉄道、上下水道、インターネット、廃棄物管理。",
+      "tiers": {
+        "1": {
+          "name": "基本的接続性",
+          "perk": "穴ぼこなし",
+          "benefit": "主要高速道路は毎年舗装。すべての蛇口に飲料水。"
+        },
+        "2": {
+          "name": "デジタル国家",
+          "perk": "どこでも光ファイバー",
+          "benefit": "農村の農場を含むすべての家庭に高速光ファイバーインターネット。"
+        },
+        "3": {
+          "name": "高速ネットワーク",
+          "perk": "新幹線",
+          "benefit": "主要都市を2時間以内で接続。国内線は時代遅れに。"
+        },
+        "4": {
+          "name": "移動の権利",
+          "perk": "運賃無料",
+          "benefit": "すべての地下鉄、バス、電車が全員100%無料。"
+        }
+      },
+      "subServices": {
+        "roads": "道路",
+        "rail": "鉄道",
+        "water": "上下水道",
+        "internet": "インターネット",
+        "waste": "廃棄物管理"
+      }
+    },
+    "defense": {
+      "name": "安全保障と防衛",
+      "description": "軍隊、警察、消防、サイバーセキュリティ、国境。",
+      "tiers": {
+        "1": {
+          "name": "主権",
+          "perk": "国境の完全性",
+          "benefit": "国境は監視されています。基本的な警察の対応時間は安定。"
+        },
+        "2": {
+          "name": "迅速対応",
+          "perk": "災害防護",
+          "benefit": "救助チームは4時間以内にどの洪水・火災地域にも展開。"
+        },
+        "3": {
+          "name": "サイバー耐性",
+          "perk": "インフラ保護",
+          "benefit": "重要システムは攻撃から保護。迅速なインシデント対応チーム。サイバーセキュリティの公衆意識。"
+        },
+        "4": {
+          "name": "地域安全保障リーダー",
+          "perk": "戦略的安定",
+          "benefit": "高度な防衛能力。積極的な平和維持貢献。強力な相互防衛同盟。"
+        }
+      },
+      "subServices": {
+        "military": "軍隊",
+        "police": "警察",
+        "fire": "消防",
+        "cyber": "サイバーセキュリティ",
+        "borders": "国境警備"
+      }
+    },
+    "education": {
+      "name": "教育とイノベーション",
+      "description": "学校、大学、研究開発助成金、宇宙機関、芸術。",
+      "tiers": {
+        "1": {
+          "name": "識字",
+          "perk": "みんなに学校を",
+          "benefit": "すべての子供に18歳まで机、教科書、教師が保証されます。"
+        },
+        "2": {
+          "name": "熟練労働力",
+          "perk": "職人技習得",
+          "benefit": "配管工、プログラマー、電気技師のための無料職業訓練。"
+        },
+        "3": {
+          "name": "知識経済",
+          "perk": "大学無償化",
+          "benefit": "高等教育は無料。学生ローンのない社会。"
+        },
+        "4": {
+          "name": "イノベーション国家",
+          "perk": "グローバルR&Dハブ",
+          "benefit": "世界大学ランキングトップ10。R&D支出はGDPの3%以上。繁栄するスタートアップエコシステム。"
+        }
+      },
+      "subServices": {
+        "schools": "学校",
+        "universities": "大学",
+        "research": "研究開発助成金",
+        "space": "宇宙機関",
+        "arts": "芸術と文化"
+      }
+    },
+    "environment": {
+      "name": "環境と資源",
+      "description": "公園、汚染管理、グリーンエネルギー、農業。",
+      "tiers": {
+        "1": {
+          "name": "クリーンアップ",
+          "perk": "呼吸できる空気",
+          "benefit": "都市からスモッグを排除。産業廃棄物サイトを清掃。"
+        },
+        "2": {
+          "name": "保全",
+          "perk": "再野生化",
+          "benefit": "国土の20%が保護自然保護区に指定。"
+        },
+        "3": {
+          "name": "移行",
+          "perk": "100%再生可能エネルギー",
+          "benefit": "送電網は風力/太陽光/原子力のみで稼働。化石燃料は禁止。"
+        },
+        "4": {
+          "name": "カーボンニュートラル",
+          "perk": "ネットゼロ達成",
+          "benefit": "ネットゼロ排出達成。気候適応インフラ完成。グローバル環境リーダーシップ。"
+        }
+      },
+      "subServices": {
+        "parks": "公園と保全",
+        "pollution": "汚染管理",
+        "energy": "グリーンエネルギー",
+        "agriculture": "農業"
+      }
+    },
+    "social": {
+      "name": "社会保障",
+      "description": "年金、失業、住宅、保育。",
+      "tiers": {
+        "1": {
+          "name": "尊厳",
+          "perk": "食料安全保障",
+          "benefit": "困窮者のためのフードバンクと緊急シェルターを提供。"
+        },
+        "2": {
+          "name": "セーフティネット",
+          "perk": "生活賃金",
+          "benefit": "失業手当は6ヶ月間、失われた給与の80%をカバー。"
+        },
+        "3": {
+          "name": "家族優先",
+          "perk": "無料保育",
+          "benefit": "国が資金提供する保育と1年間の有給育児休暇。"
+        },
+        "4": {
+          "name": "ポスト欠乏",
+          "perk": "ユニバーサルベーシックインカム",
+          "benefit": "すべての市民が基本的なニーズをカバーする月額給付金を受け取ります。"
+        }
+      },
+      "subServices": {
+        "pensions": "年金",
+        "unemployment": "失業",
+        "housing": "住宅",
+        "childcare": "保育"
+      }
+    },
+    "governance": {
+      "name": "統治と外交",
+      "description": "行政、徴税、海外援助、司法。",
+      "tiers": {
+        "1": {
+          "name": "機能性",
+          "perk": "徴税と国勢調査",
+          "benefit": "政府は資金を徴収し、正確に投票を数えることができます。"
+        },
+        "2": {
+          "name": "効率性",
+          "perk": "デジタル官僚制",
+          "benefit": "紙の書類なし。すべての許可証とライセンスはアプリで即座に処理。"
+        },
+        "3": {
+          "name": "グローバル援助",
+          "perk": "ソフトパワー",
+          "benefit": "巨額の海外援助予算がグローバルな影響力と貿易を増大。"
+        },
+        "4": {
+          "name": "透明な民主主義",
+          "perk": "最高の信頼",
+          "benefit": "オープンデータ政府。独立した反腐敗裁判所。世界トップの信頼と透明性ランキング。"
+        }
+      },
+      "subServices": {
+        "admin": "行政",
+        "tax": "徴税",
+        "foreign-aid": "海外援助",
+        "justice": "司法制度"
+      }
+    }
+  },
+  "archetypes": {
+    "debt": {
+      "name": "財政タカ派",
+      "description": "財政安定と債務削減を何よりも優先します。"
+    },
+    "health": {
+      "name": "人道主義者",
+      "description": "すべての市民の健康と福祉を優先します。"
+    },
+    "infrastructure": {
+      "name": "建設者",
+      "description": "インフラを通じて接続し、力を与えることを信じています。"
+    },
+    "defense": {
+      "name": "守護者",
+      "description": "安全と保護が最大の関心事です。"
+    },
+    "education": {
+      "name": "ビジョナリー",
+      "description": "知識とイノベーションを通じて未来に投資します。"
+    },
+    "environment": {
+      "name": "自然主義者",
+      "description": "地球と持続可能な生活を擁護します。"
+    },
+    "social": {
+      "name": "ケアテイカー",
+      "description": "社会でどの市民も取り残されないようにします。"
+    },
+    "governance": {
+      "name": "外交官",
+      "description": "効率的な統治とグローバルな協力を重視します。"
+    }
+  },
+  "compoundArchetypes": {
+    "education-health": {
+      "name": "社会進歩主義者",
+      "description": "健康と知識を通じて人々に投資する政府。"
+    },
+    "health-social": {
+      "name": "福祉チャンピオン",
+      "description": "市民の福祉と社会保障に焦点を当てた思いやりのある国家。"
+    },
+    "environment-health": {
+      "name": "全体的治療者",
+      "description": "健康な人には健康な地球が必要だと信じています。"
+    },
+    "defense-health": {
+      "name": "保護者",
+      "description": "安全と健康が国家の基盤を形成します。"
+    },
+    "education-environment": {
+      "name": "未来設計者",
+      "description": "将来の世代のために知性と地球に投資。"
+    },
+    "education-infrastructure": {
+      "name": "現代化推進者",
+      "description": "スマートインフラと教育を受けた市民を構築。"
+    },
+    "defense-education": {
+      "name": "戦略的思考家",
+      "description": "知識と安全が強さの柱です。"
+    },
+    "education-social": {
+      "name": "平等主義者",
+      "description": "教育と社会支援が不平等のサイクルを断ち切ります。"
+    },
+    "defense-infrastructure": {
+      "name": "戦略的建設者",
+      "description": "強いインフラと強い防衛が強い国家を作ります。"
+    },
+    "environment-infrastructure": {
+      "name": "グリーンエンジニア",
+      "description": "よりクリーンな未来のための持続可能なインフラを構築。"
+    },
+    "infrastructure-social": {
+      "name": "公僕",
+      "description": "すべての市民を向上させるインフラと社会サービス。"
+    },
+    "defense-environment": {
+      "name": "資源の守護者",
+      "description": "国家とその天然資源を守ります。"
+    },
+    "defense-social": {
+      "name": "番人国家",
+      "description": "強力な社会的セーフティネットを持つ安全な国家。"
+    },
+    "defense-governance": {
+      "name": "秩序の守護者",
+      "description": "強い制度と安全が安定を維持します。"
+    },
+    "environment-social": {
+      "name": "グリーン社会主義者",
+      "description": "環境正義と社会的平等は密接に関連しています。"
+    },
+    "governance-social": {
+      "name": "行政官",
+      "description": "すべての人に社会プログラムを提供する効率的な統治。"
+    },
+    "governance-health": {
+      "name": "公衆衛生担当官",
+      "description": "すべての人にヘルスケアを提供する組織化されたシステム。"
+    },
+    "education-governance": {
+      "name": "啓蒙された官僚",
+      "description": "教育を受けた市民によって推進されるスマートな統治。"
+    },
+    "governance-infrastructure": {
+      "name": "システムアーキテクト",
+      "description": "物理的および行政的両方の効率的なシステムを構築。"
+    },
+    "environment-governance": {
+      "name": "規制者",
+      "description": "有能な制度に支えられた強力な環境政策。"
+    },
+    "debt-governance": {
+      "name": "財政保守主義者",
+      "description": "慎重な支出と効率的な政府が国家債務を削減します。"
+    },
+    "debt-infrastructure": {
+      "name": "現実的な投資家",
+      "description": "責任ある債務管理をしながら戦略的なインフラ支出。"
+    },
+    "debt-health": {
+      "name": "バランスの取れた管理者",
+      "description": "市民の健康を守りながら財政の健全性を維持。"
+    },
+    "debt-education": {
+      "name": "長期計画者",
+      "description": "財政の持続可能性を確保しながら教育に投資。"
+    },
+    "debt-defense": {
+      "name": "要塞建設者",
+      "description": "財政安全と国家安全は同等に重要です。"
+    },
+    "debt-environment": {
+      "name": "持続可能な経済学者",
+      "description": "財政的にも理にかなうグリーン投資。"
+    },
+    "debt-social": {
+      "name": "責任あるケアテイカー",
+      "description": "長期的に持続可能な資金で運営される社会プログラム。"
+    }
+  },
+  "policyTraits": {
+    "mental-health-champion": "メンタルヘルスチャンピオン",
+    "pandemic-prepared": "パンデミック対策",
+    "pharma-focus": "製薬重視",
+    "hospital-builder": "病院建設者",
+    "space-enthusiast": "宇宙愛好家",
+    "arts-patron": "芸術のパトロン",
+    "research-driven": "研究駆動型",
+    "university-champion": "大学チャンピオン",
+    "rail-enthusiast": "鉄道愛好家",
+    "digital-first": "デジタルファースト",
+    "road-warrior": "道路戦士",
+    "water-guardian": "水の守護者",
+    "cyber-defender": "サイバー防衛者",
+    "military-strong": "軍事強国",
+    "firefighter-hero": "救急救命重視",
+    "border-hawk": "国境タカ派",
+    "climate-forward": "気候先進",
+    "park-ranger": "公園レンジャー",
+    "pollution-fighter": "汚染ファイター",
+    "farm-supporter": "農業支援者",
+    "housing-advocate": "住宅擁護者",
+    "childcare-champion": "保育チャンピオン",
+    "pension-protector": "年金保護者",
+    "job-security": "雇用安定擁護者",
+    "global-aid-leader": "グローバル援助リーダー",
+    "justice-seeker": "正義追求者",
+    "tax-reformer": "税制改革者",
+    "efficient-admin": "効率的な行政官",
+    "bond-manager": "債券マネージャー",
+    "debt-hawk": "債務タカ派"
+  },
+  "governanceStyles": {
+    "balanced": "バランス型",
+    "austerity": "緊縮型",
+    "expansive": "拡大型"
+  }
+}
