@@ -51,5 +51,8 @@
     "typescript": "~5.9.3",
     "ultracite": "6.3.6",
     "vite": "^7.2.4"
+  },
+  "overrides": {
+    "glob": "14.0.2"
   }
 }
